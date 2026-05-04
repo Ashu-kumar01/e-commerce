@@ -12,12 +12,19 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SecurityController;
 use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('website.index');
+})->name('home');
 
+
+Route::get('product', [ProductController::class, 'product'])->name('website.product');
+Route::get('shop-now', [ShopController::class, 'index'])->name('website.shop');
+Route::get('about', [ProductController::class, 'product'])->name('website.about');
+Route::get('contact', [ContactController::class, 'contact'])->name('website.contact');
 
 Route::prefix('account')->name('account.')->group(function () {
 
@@ -55,12 +62,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('add-product', [ProductController::class, 'create'])->name('addproduct');
 
 
-        Route::get('category', [CategoryBrandController::class, 'index'])->name('category.index'); 
-        Route::post('category/store', [CategoryBrandController::class, 'store'])->name('category.store'); 
+        Route::get('category', [CategoryBrandController::class, 'index'])->name('category.index');
+        Route::post('category/store', [CategoryBrandController::class, 'store'])->name('category.store');
 
-        Route::get('category/{id}/edit', [CategoryBrandController::class, 'edit'])->name('category.edit');  
-        Route::post('category/{id}/update', [CategoryBrandController::class, 'update'])->name('category.update');  
-        Route::delete('category/{id}', [CategoryBrandController::class, 'deleteCategory'])->name('category.delete');  
+        Route::get('category/{id}/edit', [CategoryBrandController::class, 'edit'])->name('category.edit');
+        Route::post('category/{id}/update', [CategoryBrandController::class, 'update'])->name('category.update');
+        Route::delete('category/{id}', [CategoryBrandController::class, 'deleteCategory'])->name('category.delete');
 
 
         // sub category

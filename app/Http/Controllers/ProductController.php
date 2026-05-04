@@ -23,4 +23,11 @@ class ProductController extends Controller
     {
         dd($request->all());
     }
+
+    public function product()
+    {
+        return view('website.product');
+    }
+
+    
 }

@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
+
+    public function about(){
+        return view('website.about');
+    }
     public function index()
     {
         $admin = Auth::user();
