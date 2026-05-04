@@ -93,7 +93,8 @@
                 <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
                 <p class="text-sm text-gray-500">Login to your account to continue shopping.</p>
             </div>
-
+ 
+            
             @if (Session::has('error'))
                 <p class="text-sm text-red-500 bg-red-100 p-3 border border-red-400 ">{{ Session::get('error') }}</p>
             @endif
