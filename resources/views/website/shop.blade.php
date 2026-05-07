@@ -776,7 +776,7 @@
         <img src="${p.img}" alt="${p.name}" loading="lazy"/>
         ${p.badge?`<span class="badge">${p.badge}</span>`:''}
         <div class="img-overlay">
-          <a href="product.html" class="overlay-btn">View Details</a>
+          <a href="{{ route('website.product') }}" class="overlay-btn">View Details</a>
         </div>
       </div>
       <div class="card-body">
@@ -800,7 +800,7 @@
         </div>
         <div class="card-actions">
           <button class="btn-cart" onclick="addCart('${p.name}',${p.id})">Add to Cart</button>
-          <a href="checkout.html" class="btn-buy" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Buy Now</a>
+          <a href="{{route('website.summary')}}" class="btn-buy" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Buy Now</a>
         </div>
       </div>
     </div>`;

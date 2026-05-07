@@ -10,4 +10,14 @@ class ShopController extends Controller
     {
         return view('website.shop');
     }
+
+    public function summary()
+    {
+        return view('website.product-summary');
+    }
+
+    public function checkout()
+    {
+        return view('website.checkout');
+    }
 }

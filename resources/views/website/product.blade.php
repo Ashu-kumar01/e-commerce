@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
-            --gold: #C9A84C;
+            --gold: #c28e00;
             --gold-light: #E8D5A3;
             --cream: #FAF7F2;
             --charcoal: #1C1C1C;

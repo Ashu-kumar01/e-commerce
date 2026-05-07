@@ -21,9 +21,11 @@ Route::get('/', function () {
 })->name('home');
 
 
+Route::get('about', [ProfileController::class, 'about'])->name('website.about');
 Route::get('product', [ProductController::class, 'product'])->name('website.product');
 Route::get('shop-now', [ShopController::class, 'index'])->name('website.shop');
-Route::get('about', [ProductController::class, 'product'])->name('website.about');
+Route::get('product-summary', [ShopController::class, 'summary'])->name('website.summary');
+Route::get('checkout', [ShopController::class, 'checkout'])->name('website.checkout');
 Route::get('contact', [ContactController::class, 'contact'])->name('website.contact');
 
 Route::prefix('account')->name('account.')->group(function () {
