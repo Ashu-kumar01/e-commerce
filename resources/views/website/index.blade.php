@@ -1,108 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <title>Baker - Bakery Website Template</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta content="" name="keywords" />
-    <meta content="" name="description" />
-
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon" />
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Playfair+Display:wght@600;700&display=swap"
-        rel="stylesheet" />
-
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
-
-    <!-- Libraries Stylesheet -->
-    <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet" />
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
-
-    <!-- Template Stylesheet -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
-</head>
-
-<body>
-    <!-- Spinner Start -->
-    <div id="spinner"
-        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-grow text-primary" role="status"></div>
-    </div>
-    <!-- Spinner End -->
-
-    <!-- Topbar Start -->
-    <div class="container-fluid top-bar bg-dark text-light px-0 wow fadeIn" data-wow-delay="0.1s">
-        <div class="row gx-0 align-items-center d-none d-lg-flex">
-            <div class="col-lg-6 px-5 text-start">
-                <!-- <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a class="small text-light" href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a class="small text-light" href="#">Career</a></li>
-                    <li class="breadcrumb-item"><a class="small text-light" href="#">Terms</a></li>
-                    <li class="breadcrumb-item"><a class="small text-light" href="#">Privacy</a></li>
-                </ol> -->
-            </div>
-            <div class="col-lg-6 px-5 text-end">
-                <small>Follow us:</small>
-                <div class="h-100 d-inline-flex align-items-center">
-                    <a class="btn-lg-square text-primary border-end rounded-0" href=""><i
-                            class="fab fa-facebook-f"></i></a>
-                    <a class="btn-lg-square text-primary border-end rounded-0" href=""><i
-                            class="fab fa-twitter"></i></a>
-                    <a class="btn-lg-square text-primary border-end rounded-0" href=""><i
-                            class="fab fa-linkedin-in"></i></a>
-                    <a class="btn-lg-square text-primary pe-0" href=""><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Topbar End -->
-
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
-        <a href="index.html" class="navbar-brand ms-4 ms-lg-0">
-            <h1 class="text-primary m-0">Baker</h1>
-        </a>
-        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav mx-auto p-4 p-lg-0">
-                <a href="{{ route('home') }}" class="nav-item nav-link active">Home</a>
-                <a href="{{ route('website.about') }}" class="nav-item nav-link">About</a> 
-                <a href="{{ route('website.shop') }}" class="nav-item nav-link">Collections</a>
-                <!-- <div class="nav-item dropdown">
-                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                 <div class="dropdown-menu m-0">
-                     <a href="team.html" class="dropdown-item">Our Team</a>
-                     <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                     <a href="404.html" class="dropdown-item">404 Page</a>
-                 </div>
-             </div> -->
-                <a href="{{ route('website.contact') }}" class="nav-item nav-link">Contact</a>
-            </div>
-            <div class="d-none d-lg-flex">
-                <div class="flex-shrink-0 btn-lg-square border border-light rounded-circle">
-                    <i class="fa fa-phone text-primary"></i>
-                </div>
-                <div class="ps-3">
-                    <small class="text-primary mb-0">Call Us</small>
-                    <p class="text-light fs-5 mb-0">+012 345 6789</p>
-                </div>
-            </div>
-        </div>
-    </nav>
-
+@extends('website.layout.main')
+@section('websiteContent')
     <!-- Carousel Start -->
     <div class="container-fluid p-0 pb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="owl-carousel header-carousel position-relative">
@@ -235,7 +132,7 @@
                                 <i class="fa fa-check text-primary me-2"></i>Home Delivery
                             </div>
                         </div>
-                        <a class="btn btn-primary rounded-pill py-3 px-5" href="">Read More</a>
+                        <a class="btn btn-primary rounded-pill py-3 px-5" href="{{ route('website.about') }}">Read More</a>
                     </div>
                 </div>
             </div>
@@ -244,7 +141,7 @@
     <!-- About End -->
 
     <!-- Product Start -->
-    <div class="container-xxl bg-light my-6 py-6 pt-0">
+    <div class=" bg-light pt-0">
         <div class="container">
             <div class="bg-primary text-light rounded-bottom p-5 my-6 mt-0 wow fadeInUp" data-wow-delay="0.1s">
                 <div class="row g-4 align-items-center">
@@ -270,64 +167,177 @@
                     Explore The Categories Of Our Bakery Products
                 </h1>
             </div>
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="product-item d-flex flex-column bg-white rounded overflow-hidden h-100">
-                        <div class="text-center p-4">
-                            <div class="d-inline-block border border-primary rounded-pill px-3 mb-3">
-                                $11 - $99
-                            </div>
-                            <h3 class="mb-3">Cake</h3>
-                            <span>Tempor erat elitr rebum at clita dolor diam ipsum sit diam
-                                amet diam et eos</span>
+            <div class="product-grid" id="productGrid">
+                <div class="product-card">
+                    <div class="img-wrap">
+                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&amp;q=80"
+                            alt="Noir Obsidian" loading="lazy">
+                        <span class="badge">Best Seller</span>
+                        <div class="img-overlay">
+                            <a href="http://127.0.0.1:8000/product-details" class="overlay-btn">View Details</a>
                         </div>
-                        <div class="position-relative mt-auto">
-                            <img class="img-fluid" src="img/product-1.jpg" alt="" />
-                            <div class="product-overlay">
-                                <a class="btn btn-lg-square btn-outline-light rounded-circle" href=""><i
-                                        class="fa fa-eye text-primary"></i></a>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-name serif">Noir Obsidian</div>
+                        <div class="card-price">from ₹1,800</div>
+                        <div class="card-selects">
+                            <select class="elegant-select" id="flavor-1">
+                                <option>Chocolate Ganache</option>
+                                <option>Dark Truffle</option>
+                                <option>Espresso</option>
+                            </select>
+                            <select class="elegant-select" id="size-1">
+                                <option>500g</option>
+                                <option>1 kg</option>
+                                <option>2 kg</option>
+                                <option>3 kg</option>
+                            </select>
+                        </div>
+                        <div class="qty-row">
+                            <span class="qty-label">Qty</span>
+                            <div class="qty-ctrl">
+                                <button class="qty-btn" onclick="changeQty(1,-1)">−</button>
+                                <span class="qty-num" id="qty-1">1</span>
+                                <button class="qty-btn" onclick="changeQty(1,1)">+</button>
                             </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-cart" onclick="addCart('Noir Obsidian',1)">Add to Cart</button>
+                            <a href="http://127.0.0.1:8000/product-summary" class="btn-buy"
+                                style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Buy
+                                Now</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="product-item d-flex flex-column bg-white rounded overflow-hidden h-100">
-                        <div class="text-center p-4">
-                            <div class="d-inline-block border border-primary rounded-pill pt-1 px-3 mb-3">
-                                $11 - $99
-                            </div>
-                            <h3 class="mb-3">Bread</h3>
-                            <span>Tempor erat elitr rebum at clita dolor diam ipsum sit diam
-                                amet diam et eos</span>
+                <div class="product-card">
+                    <div class="img-wrap">
+                        <img src="https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=600&amp;q=80"
+                            alt="Ivory Dream" loading="lazy">
+                        <span class="badge">New</span>
+                        <div class="img-overlay">
+                            <a href="http://127.0.0.1:8000/product-details" class="overlay-btn">View Details</a>
                         </div>
-                        <div class="position-relative mt-auto">
-                            <img class="img-fluid" src="img/product-2.jpg" alt="" />
-                            <div class="product-overlay">
-                                <a class="btn btn-lg-square btn-outline-light rounded-circle" href=""><i
-                                        class="fa fa-eye text-primary"></i></a>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-name serif">Ivory Dream</div>
+                        <div class="card-price">from ₹1,500</div>
+                        <div class="card-selects">
+                            <select class="elegant-select" id="flavor-2">
+                                <option>Vanilla Bean</option>
+                                <option>White Chocolate</option>
+                                <option>Coconut</option>
+                            </select>
+                            <select class="elegant-select" id="size-2">
+                                <option>500g</option>
+                                <option>1 kg</option>
+                                <option>2 kg</option>
+                                <option>3 kg</option>
+                            </select>
+                        </div>
+                        <div class="qty-row">
+                            <span class="qty-label">Qty</span>
+                            <div class="qty-ctrl">
+                                <button class="qty-btn" onclick="changeQty(2,-1)">−</button>
+                                <span class="qty-num" id="qty-2">1</span>
+                                <button class="qty-btn" onclick="changeQty(2,1)">+</button>
                             </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-cart" onclick="addCart('Ivory Dream',2)">Add to Cart</button>
+                            <a href="http://127.0.0.1:8000/product-summary" class="btn-buy"
+                                style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Buy
+                                Now</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="product-item d-flex flex-column bg-white rounded overflow-hidden h-100">
-                        <div class="text-center p-4">
-                            <div class="d-inline-block border border-primary rounded-pill pt-1 px-3 mb-3">
-                                $11 - $99
-                            </div>
-                            <h4 class="mb-3">Cookies</h4>
-                            <span>Tempor erat elitr rebum at clita dolor diam ipsum sit diam
-                                amet diam et eos</span>
+                <div class="product-card">
+                    <div class="img-wrap">
+                        <img src="https://images.unsplash.com/photo-1586788224331-947f68671cf1?w=600&amp;q=80"
+                            alt="Crimson Velvet" loading="lazy">
+
+                        <div class="img-overlay">
+                            <a href="http://127.0.0.1:8000/product-details" class="overlay-btn">View Details</a>
                         </div>
-                        <div class="position-relative mt-auto">
-                            <img class="img-fluid" src="img/product-3.jpg" alt="" />
-                            <div class="product-overlay">
-                                <a class="btn btn-lg-square btn-outline-light rounded-circle" href=""><i
-                                        class="fa fa-eye text-primary"></i></a>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-name serif">Crimson Velvet</div>
+                        <div class="card-price">from ₹1,650</div>
+                        <div class="card-selects">
+                            <select class="elegant-select" id="flavor-3">
+                                <option>Red Velvet</option>
+                                <option>Cream Cheese</option>
+                                <option>Raspberry</option>
+                            </select>
+                            <select class="elegant-select" id="size-3">
+                                <option>500g</option>
+                                <option>1 kg</option>
+                                <option>2 kg</option>
+                                <option>3 kg</option>
+                            </select>
+                        </div>
+                        <div class="qty-row">
+                            <span class="qty-label">Qty</span>
+                            <div class="qty-ctrl">
+                                <button class="qty-btn" onclick="changeQty(3,-1)">−</button>
+                                <span class="qty-num" id="qty-3">1</span>
+                                <button class="qty-btn" onclick="changeQty(3,1)">+</button>
                             </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-cart" onclick="addCart('Crimson Velvet',3)">Add to Cart</button>
+                            <a href="http://127.0.0.1:8000/product-summary" class="btn-buy"
+                                style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Buy
+                                Now</a>
                         </div>
                     </div>
                 </div>
+                <div class="product-card">
+                    <div class="img-wrap">
+                        <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&amp;q=80"
+                            alt="Jardin d'Été" loading="lazy">
+                        <span class="badge">Limited</span>
+                        <div class="img-overlay">
+                            <a href="http://127.0.0.1:8000/product-details" class="overlay-btn">View Details</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-name serif">Jardin d'Été</div>
+                        <div class="card-price">from ₹2,100</div>
+                        <div class="card-selects">
+                            <select class="elegant-select" id="flavor-4">
+                                <option>Summer Fruit</option>
+                                <option>Lychee Rose</option>
+                                <option>Mango Passionfruit</option>
+                            </select>
+                            <select class="elegant-select" id="size-4">
+                                <option>500g</option>
+                                <option>1 kg</option>
+                                <option>2 kg</option>
+                                <option>3 kg</option>
+                            </select>
+                        </div>
+                        <div class="qty-row">
+                            <span class="qty-label">Qty</span>
+                            <div class="qty-ctrl">
+                                <button class="qty-btn" onclick="changeQty(4,-1)">−</button>
+                                <span class="qty-num" id="qty-4">1</span>
+                                <button class="qty-btn" onclick="changeQty(4,1)">+</button>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-cart" onclick="addCart('Jardin d'Été',4)">Add to Cart</button>
+                            <a href="http://127.0.0.1:8000/product-summary" class="btn-buy"
+                                style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Buy
+                                Now</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="text-center ">
+                <a class="btn btn-primary rounded-pill py-3 my-5 mx-auto px-5" href="{{ route('website.shop') }}">More
+                    Products</a>
+
             </div>
         </div>
     </div>
@@ -493,7 +503,7 @@
     <!-- Team End -->
 
     <!-- Testimonial Start -->
-    <div class="container-xxl bg-light my-6 py-6 pb-0">
+    <div class="  bg-light my-6 py-6 pb-0">
         <div class="container">
             <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px">
                 <p class="text-primary text-uppercase mb-2">// Client's Review</p>
@@ -566,10 +576,9 @@
                     </div>
                     <div class="col-md-6 text-md-end">
                         <div class="position-relative">
-                            <input class="form-control bg-transparent border-light w-100 py-3 ps-4 pe-5"
-                                type="text" placeholder="Your email" />
-                            <button type="button"
-                                class="btn btn-dark py-2 px-3 position-absolute top-0 end-0 mt-2 me-2">
+                            <input class="form-control bg-transparent border-light w-100 py-3 ps-4 pe-5" type="text"
+                                placeholder="Your email" />
+                            <button type="button" class="btn btn-dark py-2 px-3 position-absolute top-0 end-0 mt-2 me-2">
                                 SignUp
                             </button>
                         </div>
@@ -579,108 +588,4 @@
         </div>
     </div>
     <!-- Testimonial End -->
-
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-light footer my-6 mb-0 py-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-light mb-4">Office Address</h4>
-                    <p class="mb-2">
-                        <i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA
-                    </p>
-                    <p class="mb-2">
-                        <i class="fa fa-phone-alt me-3"></i>+012 345 67890
-                    </p>
-                    <p class="mb-2">
-                        <i class="fa fa-envelope me-3"></i>info@example.com
-                    </p>
-                    <div class="d-flex pt-2">
-                        <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i
-                                class="fab fa-twitter"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i
-                                class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-1" href=""><i
-                                class="fab fa-youtube"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-0" href=""><i
-                                class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-light mb-4">Quick Links</h4>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Our Services</a>
-                    <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">Support</a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-light mb-4">Quick Links</h4>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Our Services</a>
-                    <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">Support</a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-light mb-4">Photo Gallery</h4>
-                    <div class="row g-2">
-                        <div class="col-4">
-                            <img class="img-fluid bg-light rounded p-1" src="img/product-1.jpg" alt="Image" />
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light rounded p-1" src="img/product-2.jpg" alt="Image" />
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light rounded p-1" src="img/product-3.jpg" alt="Image" />
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light rounded p-1" src="img/product-2.jpg" alt="Image" />
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light rounded p-1" src="img/product-3.jpg" alt="Image" />
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light rounded p-1" src="img/product-1.jpg" alt="Image" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
-
-    <!-- Copyright Start -->
-    <div class="container-fluid copyright text-light py-4 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a href="#">Your Site Name</a>, All Right Reserved.
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Copyright End -->
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
-            class="bi bi-arrow-up"></i></a>
-
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('lib/wow/wow.min.js') }}"></script>
-    <script src="{{ asset('lib/easing/easing.min.js') }}"></script>
-    <script src="{{ asset('lib/waypoints/waypoints.min.js') }}"></script>
-    <script src="{{ asset('lib/counterup/counterup.min.js') }}"></script>
-    <script src="{{ asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
-
-    <!-- Template Javascript -->
-    <script src="{{ asset('js/main.js') }}"></script>
-</body>
-
-</html>
+@endsection
