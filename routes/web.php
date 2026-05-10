@@ -14,6 +14,7 @@ use App\Http\Controllers\SecurityController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\SizeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -72,6 +73,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('category/{id}/edit', [CategoryBrandController::class, 'edit'])->name('category.edit');
         Route::post('category/{id}/update', [CategoryBrandController::class, 'update'])->name('category.update');
         Route::delete('category/{id}', [CategoryBrandController::class, 'deleteCategory'])->name('category.delete');
+
+        Route::get('category-size', [SizeController::class, 'index'])->name('size.index');
+        Route::post('category-size/store', [SizeController::class, 'store'])->name('size.store');
+        Route::get('category-size/{id}/edit', [SizeController::class, 'edit'])->name('size.edit');
 
 
         // sub category

@@ -71,7 +71,7 @@
                             alt="Noir Obsidian" loading="lazy">
                         <span class="badge">Best Seller</span>
                         <div class="img-overlay">
-                            <a href="http://127.0.0.1:8000/product-details" class="overlay-btn">View Details</a>
+                            <a href="{{route('website.product')}}" class="overlay-btn">View Details</a>
                         </div>
                     </div>
                     <div class="card-body">

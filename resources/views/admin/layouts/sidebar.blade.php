@@ -83,7 +83,7 @@
                   <span class="text-xs font-medium text-gray-500">Category & Brand</span>
               </div>
           </a>
-          <a href="{{ route('admin.subcategory.index') }}">
+          {{-- <a href="{{ route('admin.subcategory.index') }}">
               <div class="nav-item flex items-center gap-3 px-3 py-2.5">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
                       class="text-gray-500 flex-shrink-0">
@@ -94,8 +94,8 @@
                   </svg>
                   <span class="text-xs font-medium text-gray-500">Sub-Category</span>
               </div>
-          </a>
-          <a href="{{ route('admin.addproduct.index') }}">
+          </a> --}}
+          {{-- <a href="{{ route('admin.addproduct.index') }}">
               <div class="nav-item flex items-center gap-3 px-3 py-2.5">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
                       class="text-gray-500 flex-shrink-0">
@@ -104,10 +104,10 @@
                       <path d="M16 3H8l-2 4h12l-2-4z" stroke="currentColor" stroke-width="2"
                           stroke-linecap="round" />
                   </svg>
-                  <span class="text-xs font-medium text-gray-500">Products</span>
+                  <span class="text-xs font-medium text-gray-500">Product Type</span>
               </div>
-          </a>
-          <a href="{{ route('admin.brand.index') }}">
+          </a> --}}
+          {{-- <a href="{{ route('admin.brand.index') }}">
               <div class="nav-item flex items-center gap-3 px-3 py-2.5">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
                       class="text-gray-500 flex-shrink-0">
@@ -117,6 +117,18 @@
                           stroke-linecap="round" />
                   </svg>
                   <span class="text-xs font-medium text-gray-500">Brand Master</span>
+              </div>
+          </a> --}}
+          <a href="{{ route('admin.size.index') }}">
+              <div class="nav-item flex items-center gap-3 px-3 py-2.5">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                      class="text-gray-500 flex-shrink-0">
+                      <path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"
+                          stroke="currentColor" stroke-width="2" />
+                      <path d="M16 3H8l-2 4h12l-2-4z" stroke="currentColor" stroke-width="2"
+                          stroke-linecap="round" />
+                  </svg>
+                  <span class="text-xs font-medium text-gray-500">Size Master</span>
               </div>
           </a>
 
@@ -166,14 +178,7 @@
 
       <!-- Sidebar footer -->
       <div class="mt-auto p-4 flex-shrink-0">
-          <div class="p-3 rounded-xl mb-3"
-              style="background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(6,182,212,0.05));border:1px solid rgba(139,92,246,0.15);">
-              <div class="text-[10px] font-semibold text-violet-300 mb-1">Storage</div>
-              <div class="text-[10px] text-gray-500 mb-2">14.2 GB of 20 GB</div>
-              <div class="prog-track h-1.5">
-                  <div class="prog-fill" style="width:71%"></div>
-              </div>
-          </div>
+          
           <div class="flex items-center gap-2 px-1">
               <a href="{{ route('admin.profile') }}">
                   <div class="avatar-ring flex-shrink-0">

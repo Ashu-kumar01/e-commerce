@@ -22,4 +22,9 @@ class Category extends Model
     {
         return $this->hasMany(SubCategory::class, 'category_id');
     }
+
+    public function size()
+    {
+        return $this->hasMany(Size::class, 'category_id');
+    }
 }

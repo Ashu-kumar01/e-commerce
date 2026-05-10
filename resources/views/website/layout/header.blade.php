@@ -56,13 +56,7 @@
              <a href="{{ route('website.contact') }}" class="nav-item nav-link">Contact</a>
          </div>
          <div class="d-none d-lg-flex">
-             <div class="flex-shrink-0 btn-lg-square border border-light rounded-circle">
-                 <i class="fa fa-phone text-primary"></i>
-             </div>
-             <div class="ps-3">
-                 <small class="text-primary mb-0">Call Us</small>
-                 <p class="text-light fs-5 mb-0">+012 345 6789</p>
-             </div>
+              <button class="cart-btn">Cart(<span id="carts">0</span>)</button>
          </div>
      </div>
  </nav>
