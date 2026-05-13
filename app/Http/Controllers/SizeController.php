@@ -13,9 +13,9 @@ class SizeController extends Controller
      */
     public function index()
     {
-        $sizes_data = null;
-        $sizes = Size::with('category')->get();
+        $sizes = Size::with('category')->paginate(20);
         $categorys = Category::where('status', 1)->get();
+        $sizes_data = null;
         return view('admin.size-master', compact('categorys', 'sizes', 'sizes_data'));
     }
 
@@ -60,7 +60,7 @@ class SizeController extends Controller
     public function edit(string $id)
     {
         $sizes_data = Size::findOrFail($id);
-        $sizes = Size::with('category')->get();
+        $sizes = Size::with('category')->paginate(20);
         $categorys = Category::where('status', 1)->get();
         return view('admin.size-master', compact('sizes_data', 'categorys', 'sizes'));
     }

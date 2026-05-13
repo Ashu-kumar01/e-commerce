@@ -630,7 +630,7 @@
                     @csrf
 
                     {{-- {{ dd($category->id) }} --}}
-                    <input type="hidden" name="id" value="">
+                    <input type="hidden" name="id" value="{{ optional($sizes_data)->id }}">
                     <!-- Form -->
                     <div class="card-form">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
@@ -641,22 +641,25 @@
                                     <option disabled>Select Category Name</option>
                                     @foreach ($categorys as $category)
                                         <option value="{{ $category->id }}"
-                                            {{ $category->id == $sizes_data->category_id ? 'selected' : '' }}>
+                                            {{ isset($sizes_data) && $sizes_data->category_id == $category->id ? 'selected' : '' }}>
                                             {{ $category->name }}
                                         </option>
                                     @endforeach
                                 </select>
+                                {{-- {{ $category->id == optional($size->category)->category_id ?? 'N/A' ? 'selected' : 'NA' }} --}}
                             </div>
                             <div>
                                 <label class="lbl">Size</label>
-                                <input name="size" type="text" class="inp inp-mono" value="{{ $sizes_data->size }}"
-                                    placeholder="Size" id="size">
+                                <input name="size" type="text" class="inp inp-mono"
+                                    value="{{ optional($sizes_data)->size }}" placeholder="Size" id="size">
                             </div>
                         </div>
 
                         <div class="flex items-center justify-between">
                             <label class="toggle-wrapper">
-                                <input type="checkbox" name="status" class="toggle-input" value="1" checked>
+                                <input type="checkbox" name="status" class="toggle-input"
+                                    value="{{ optional($sizes_data)->status }}"
+                                    {{ optional($sizes_data)->status == 1 ? 'checked' : '' }}>
 
                                 <div class="tog">
                                     <div class="tog-thumb"></div>
@@ -676,15 +679,19 @@
                 <div>
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-[11px] text-gray-500 font-medium">Category Size List</span>
-                        <div class="relative">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
-                                class="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none">
-                                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" />
-                                <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" />
-                            </svg>
-
-                        </div>
+                        <form action="GET" method="post" id="searchfrom">
+                            <div class="relative">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                    class="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none">
+                                    <circle cx="11" cy="11" r="8" stroke="currentColor"
+                                        stroke-width="2" />
+                                    <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                                <input type="search" name="search" value="{{ request('search') }}" id="search"
+                                    placeholder="Search size/category" class="form-control inp inp-mono">
+                            </div>
+                        </form>
                     </div>
 
                     <div class="card-table">
@@ -746,6 +753,10 @@
 
                             </tbody>
                         </table>
+
+                    </div>
+                    <div class="mt-3">
+                        {{ $sizes->withQueryString()->links() }}
                     </div>
 
 
@@ -759,15 +770,16 @@
 
     </div>
     <script>
-        function autoSlug(input, targetId) {
-            const slug = input.value
-                .toLowerCase()
-                .trim()
-                .replace(/[^a-z0-9\s-]/g, '')
-                .replace(/\s+/g, '-')
-                .replace(/-+/g, '-');
-            const target = document.getElementById(targetId);
-            if (target) target.value = slug;
-        }
+        let timer;
+
+        document.getElementById('searchfrom').addEventListener('keyup', function() {
+
+            clearTimeout(timer);
+            alert('fsf');
+            timer = setTimeout(() => {
+                document.getElementById('search').submit();
+            }, 500);
+
+        });
     </script>
 @endsection

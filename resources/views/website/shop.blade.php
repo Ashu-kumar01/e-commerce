@@ -9,46 +9,54 @@
         <!-- SIDEBAR -->
         <aside class="sidebar">
             <p class="filter-title serif">Refine</p>
-            <div class="filter-wrapper">
-                <div class="filter-section">
-                    <span class="filter-label">Price Range</span>
-                    <div class="price-range-wrap">
-                        <input type="range" name="range" id="priceRange" min="500" max="8000" value="5600"
-                            oninput="document.getElementById('priceVal').textContent='₹'+this.value" />
-                        <div class="price-row">
-                            <span>₹500</span>
-                            <span id="priceVal" style="color:var(--gold);font-weight:500;">₹5,600</span>
-                            <span>₹8,000</span>
+            <form action="" method="get">
+                <div class="filter-wrapper">
+                    <div class="filter-section">
+                        <span class="filter-label">Price Range</span>
+                        <div class="price-range-wrap">
+                            <input type="range" name="range" id="priceRange" min="500" max="8000"
+                                value="5600" oninput="document.getElementById('priceVal').textContent='₹'+this.value" />
+                            <div class="price-row">
+                                <span>₹500</span>
+                                <span id="priceVal" style="color:var(--gold);font-weight:500;">₹5,600</span>
+                                <span>₹8,000</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="filter-section">
-                    <span class="filter-label">Flavour</span>
-                    <div class="check-item">
-                        <input type="checkbox" id="choc" checked />
-                        <label for="choc">Chocolate Ganache</label>
-                    </div>
-                    <div class="check-item">
-                        <input type="checkbox" id="van" checked />
-                        <label for="van">Vanilla
-                            Bean</label>
-                    </div>
-                    <div class="check-item">
-                        <input type="checkbox" id="red" />
-                        <label for="red">Red Velvet</label>
-                    </div>
+                    <div class="filter-section">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="filter-label">Flavour</span>
+                            <span class="filter-label"><button class="btn btn-primary btn-sm">View All</button></span>
+                        </div>
+                        @foreach ($categorys as $category)
+                            <div class="check-item">
+                                <label for="choc{{ $category->id }}">
+                                    <input type="checkbox" id="choc{{ $category->id }}"
+                                        name="category_{{ $category->id }}" />
+                                    {{ $category->name }}
+                                </label>
+                            </div>
+                        @endforeach
 
-                </div>
-                <div class="filter-section">
-                    <span class="filter-label">Size</span>
-                    <div class="check-item">
-                        <input type="checkbox" id="s500" checked />
-                        <label for="s500">500g — Serves 4–6</label>
-                    </div>
 
-                    <button class="apply-filter" onclick="showToast('Filters applied')">Apply Filters</button>
+
+                    </div>
+                    <div class="filter-section">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="filter-label">Size</span>
+                            <span class="filter-label"><button class="btn btn-primary btn-sm">View All</button></span>
+                        </div>
+                        @foreach ($sizess as $sizes)
+                            <div class="check-item">
+                                <label for="size_{{ $sizes->id }}">
+                                    <input type="checkbox" id="size_{{ $sizes->id }}" name="size_{{ $sizes->id }}" />
+                                    {{ $sizes->size }}</label>
+                            </div>
+                        @endforeach
+                        <button class="apply-filter" onclick="showToast('Filters applied')">Apply Filters</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </aside>
 
         <!-- PRODUCTS -->
@@ -71,7 +79,7 @@
                             alt="Noir Obsidian" loading="lazy">
                         <span class="badge">Best Seller</span>
                         <div class="img-overlay">
-                            <a href="{{route('website.product')}}" class="overlay-btn">View Details</a>
+                            <a href="{{ route('website.product') }}" class="overlay-btn">View Details</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -93,9 +101,10 @@
                         <div class="qty-row">
                             <span class="qty-label">Qty</span>
                             <div class="qty-ctrl">
-                                <button class="qty-btn" onclick="changeQty(1,-1)">−</button>
-                                <span class="qty-num" id="qty-1">1</span>
-                                <button class="qty-btn" onclick="changeQty(1,1)">+</button>
+                                <button class="qty-btn" onclick="changeQty(-1)">−</button>
+
+                                <input type="text" name="qty-1" class="qty-num" id="qty" value="1" readonly>
+                                <button class="qty-btn" onclick="changeQty(1)">+</button>
                             </div>
                         </div>
                         <div class="card-actions">
@@ -106,7 +115,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-card">
+                {{-- <div class="product-card">
                     <div class="img-wrap">
                         <img src="https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=600&amp;q=80"
                             alt="Ivory Dream" loading="lazy">
@@ -146,175 +155,29 @@
                                 Now</a>
                         </div>
                     </div>
-                </div>
-                <div class="product-card">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1586788224331-947f68671cf1?w=600&amp;q=80"
-                            alt="Crimson Velvet" loading="lazy">
-
-                        <div class="img-overlay">
-                            <a href="http://127.0.0.1:8000/product-details" class="overlay-btn">View Details</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-name serif">Crimson Velvet</div>
-                        <div class="card-price">from ₹1,650</div>
-                        <div class="card-selects">
-                            <select class="elegant-select" id="flavor-3">
-                                <option>Red Velvet</option>
-                                <option>Cream Cheese</option>
-                                <option>Raspberry</option>
-                            </select>
-                            <select class="elegant-select" id="size-3">
-                                <option>500g</option>
-                                <option>1 kg</option>
-                                <option>2 kg</option>
-                                <option>3 kg</option>
-                            </select>
-                        </div>
-                        <div class="qty-row">
-                            <span class="qty-label">Qty</span>
-                            <div class="qty-ctrl">
-                                <button class="qty-btn" onclick="changeQty(3,-1)">−</button>
-                                <span class="qty-num" id="qty-3">1</span>
-                                <button class="qty-btn" onclick="changeQty(3,1)">+</button>
-                            </div>
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn-cart" onclick="addCart('Crimson Velvet',3)">Add to Cart</button>
-                            <a href="http://127.0.0.1:8000/product-summary" class="btn-buy"
-                                style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Buy
-                                Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&amp;q=80"
-                            alt="Jardin d'Été" loading="lazy">
-                        <span class="badge">Limited</span>
-                        <div class="img-overlay">
-                            <a href="http://127.0.0.1:8000/product-details" class="overlay-btn">View Details</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-name serif">Jardin d'Été</div>
-                        <div class="card-price">from ₹2,100</div>
-                        <div class="card-selects">
-                            <select class="elegant-select" id="flavor-4">
-                                <option>Summer Fruit</option>
-                                <option>Lychee Rose</option>
-                                <option>Mango Passionfruit</option>
-                            </select>
-                            <select class="elegant-select" id="size-4">
-                                <option>500g</option>
-                                <option>1 kg</option>
-                                <option>2 kg</option>
-                                <option>3 kg</option>
-                            </select>
-                        </div>
-                        <div class="qty-row">
-                            <span class="qty-label">Qty</span>
-                            <div class="qty-ctrl">
-                                <button class="qty-btn" onclick="changeQty(4,-1)">−</button>
-                                <span class="qty-num" id="qty-4">1</span>
-                                <button class="qty-btn" onclick="changeQty(4,1)">+</button>
-                            </div>
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn-cart" onclick="addCart('Jardin d'Été',4)">Add to Cart</button>
-                            <a href="http://127.0.0.1:8000/product-summary" class="btn-buy"
-                                style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Buy
-                                Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&amp;q=80"
-                            alt="Jardin d'Été" loading="lazy">
-                        <span class="badge">Limited</span>
-                        <div class="img-overlay">
-                            <a href="http://127.0.0.1:8000/product-details" class="overlay-btn">View Details</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-name serif">Jardin d'Été</div>
-                        <div class="card-price">from ₹2,100</div>
-                        <div class="card-selects">
-                            <select class="elegant-select" id="flavor-4">
-                                <option>Summer Fruit</option>
-                                <option>Lychee Rose</option>
-                                <option>Mango Passionfruit</option>
-                            </select>
-                            <select class="elegant-select" id="size-4">
-                                <option>500g</option>
-                                <option>1 kg</option>
-                                <option>2 kg</option>
-                                <option>3 kg</option>
-                            </select>
-                        </div>
-                        <div class="qty-row">
-                            <span class="qty-label">Qty</span>
-                            <div class="qty-ctrl">
-                                <button class="qty-btn" onclick="changeQty(4,-1)">−</button>
-                                <span class="qty-num" id="qty-4">1</span>
-                                <button class="qty-btn" onclick="changeQty(4,1)">+</button>
-                            </div>
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn-cart" onclick="addCart('Jardin d'Été',4)">Add to Cart</button>
-                            <a href="http://127.0.0.1:8000/product-summary" class="btn-buy"
-                                style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Buy
-                                Now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&amp;q=80"
-                            alt="Jardin d'Été" loading="lazy">
-                        <span class="badge">Limited</span>
-                        <div class="img-overlay">
-                            <a href="http://127.0.0.1:8000/product-details" class="overlay-btn">View Details</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-name serif">Jardin d'Été</div>
-                        <div class="card-price">from ₹2,100</div>
-                        <div class="card-selects">
-                            <select class="elegant-select" id="flavor-4">
-                                <option>Summer Fruit</option>
-                                <option>Lychee Rose</option>
-                                <option>Mango Passionfruit</option>
-                            </select>
-                            <select class="elegant-select" id="size-4">
-                                <option>500g</option>
-                                <option>1 kg</option>
-                                <option>2 kg</option>
-                                <option>3 kg</option>
-                            </select>
-                        </div>
-                        <div class="qty-row">
-                            <span class="qty-label">Qty</span>
-                            <div class="qty-ctrl">
-                                <button class="qty-btn" onclick="changeQty(4,-1)">−</button>
-                                <span class="qty-num" id="qty-4">1</span>
-                                <button class="qty-btn" onclick="changeQty(4,1)">+</button>
-                            </div>
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn-cart" onclick="addCart('Jardin d'Été',4)">Add to Cart</button>
-                            <a href="http://127.0.0.1:8000/product-summary" class="btn-buy"
-                                style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Buy
-                                Now</a>
-                        </div>
-                    </div>
-                </div>
+                </div> --}}
 
             </div>
         </main>
     </div>
 
     <div class="toast" id="toast"></div>
+
+    <script>
+        function changeQty(key) {
+            let RowInputQty = document.getElementById('qty');
+            let currentQty = parseInt(RowInputQty.value);
+
+            let newQty = currentQty + key;
+
+            if (newQty < 0) {
+                newQty = 0;
+            }
+            RowInputQty.value = newQty
+            // console.log(newQty);
+            // let typeof1 = typeof(RowInputQty, currenytQt)
+            // console.log(newQty);
+
+        }
+    </script>
 @endsection
