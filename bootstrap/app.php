@@ -17,7 +17,16 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => AdminMiddleware::class,
             'customer' => GuestMiddleWare::class
         ]);
+        $middleware->redirectGuestsTo(function ($request) {
+
+            if ($request->is('admin/*')) {
+                return route('admin.login');
+            }
+
+            return route('account.login');
+        });
     })
+
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

@@ -1,6 +1,22 @@
 @extends('admin.layouts.app')
 @section('content')
     <style>
+        .d-flex {
+            display: flex;
+        }
+
+        .align-items-center {
+            align-content: center
+        }
+
+        .gap-2 {
+            gap: 1rem
+        }
+
+        .width-auto {
+            width: auto
+        }
+
         /* Ambient glows */
         .glow-orb {
             position: fixed;
@@ -216,7 +232,7 @@
             padding: 5px 12px;
             border-radius: 8px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 500;
             font-family: 'DM Mono', monospace;
             border: 1px solid rgba(255, 255, 255, 0.08);
             background: rgba(255, 255, 255, 0.04);
@@ -503,9 +519,20 @@
                                 <span class="text-[10px] text-emerald-400 font-semibold">Filling</span>
                             </div>
                         </div>
+
                         <hr class="dim mb-5">
 
                         <div class="space-y-4">
+                            <div>
+                                <label class="lbl">Category <span class="text-rose-500">*</span></label>
+                                <select class="sel" name="category">
+                                    <option disabled selected>Select category</option>
+                                    @foreach ($categogys as $categogy)
+                                        <option value="{{ $categogy->id }}">{{ $categogy->name }}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
                             <!-- Product Name -->
                             <div>
                                 <label class="lbl">Product Name <span class="text-rose-500">*</span></label>
@@ -540,77 +567,23 @@
                                         class="text-violet-400/70 font-mono text-[11px]">obsidian-oversized-hoodie</span>
                                 </p>
                             </div>
+
                             <!-- Short Description -->
                             <div>
                                 <label class="lbl">Short Description</label>
-                                <textarea class="inp resize-none" rows="2" name="short_description"
+                                <textarea class="inp resize" rows="2" name="short_description"
                                     placeholder="Brief product summary shown in category listings…"></textarea>
                             </div>
                             <!-- Full Description with toolbar -->
                             <div>
                                 <label class="lbl">Full Description</label>
-                                <div style="border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;">
-                                    <div
-                                        style="background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.06);padding:8px 12px;display:flex;gap:2px;align-items:center;flex-wrap:wrap;">
-                                        <button
-                                            class="px-2 py-1.5 rounded-md hover:bg-white/10 transition-colors text-gray-400 hover:text-white text-xs font-bold">B</button>
-                                        <button
-                                            class="px-2 py-1.5 rounded-md hover:bg-white/10 transition-colors text-gray-400 hover:text-white text-xs italic">I</button>
-                                        <button
-                                            class="px-2 py-1.5 rounded-md hover:bg-white/10 transition-colors text-gray-400 hover:text-white text-xs underline">U</button>
-                                        <div style="width:1px;height:14px;background:rgba(255,255,255,0.08);margin:0 4px;">
-                                        </div>
-                                        <button
-                                            class="p-1.5 rounded-md hover:bg-white/10 transition-colors text-gray-400 hover:text-white">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                                                <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"
-                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                                            </svg>
-                                        </button>
-                                        <button
-                                            class="p-1.5 rounded-md hover:bg-white/10 transition-colors text-gray-400 hover:text-white">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                                                <path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.1-1.1"
-                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                                            </svg>
-                                        </button>
-                                        <button
-                                            class="p-1.5 rounded-md hover:bg-white/10 transition-colors text-gray-400 hover:text-white">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                                                <rect x="3" y="3" width="18" height="18" rx="2"
-                                                    stroke="currentColor" stroke-width="2" />
-                                                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
-                                                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" />
-                                            </svg>
-                                        </button>
-                                        <div style="width:1px;height:14px;background:rgba(255,255,255,0.08);margin:0 4px;">
-                                        </div>
-                                        <button
-                                            class="px-1.5 py-1 rounded-md hover:bg-white/10 transition-colors text-gray-400 hover:text-white text-[11px] font-mono">H1</button>
-                                        <button
-                                            class="px-1.5 py-1 rounded-md hover:bg-white/10 transition-colors text-gray-400 hover:text-white text-[11px] font-mono">H2</button>
-                                        <button
-                                            class="px-1.5 py-1 rounded-md hover:bg-white/10 transition-colors text-gray-400 hover:text-white text-[11px] font-mono">H3</button>
-                                    </div>
-                                    <textarea class="inp resize-none" rows="5" name="full_description"
-                                        placeholder="Write a detailed product description with rich formatting…"
-                                        style="border:none;border-radius:0;background:rgba(255,255,255,0.02);"></textarea>
-                                </div>
+                                <textarea class="inp resize-none" rows="2" name="full_description"
+                                    placeholder="Brief product shown in category"></textarea>
                             </div>
                             <!-- Tags -->
                             <div>
                                 <label class="lbl">Product Tags</label>
-                                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-height:44px;transition:all 0.2s;"
-                                    onfocus="this.style.borderColor='rgba(139,92,246,0.45)'"
-                                    onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
-                                    <div class="tag-chip">premium <span style="cursor: pointer">×</span></div>
-                                    <div class="tag-chip">streetwear <span style="cursor: pointer">×</span></div>
-                                    <div class="tag-chip">oversized <span style="cursor: pointer">×</span></div>
-                                    <input type="text" name="product_tag" placeholder="Add tag & press Enter…"
-                                        style="background:none;border:none;outline:none;color:#e2e8f0;font-size:12px;flex:1;min-width:80px;font-family:'DM Sans',sans-serif;"
-                                        class="placeholder-gray-700">
-                                </div>
+                                <textarea class="inp resize-none" rows="2" name="product_tags" placeholder="Product Tags"></textarea>
                             </div>
                         </div>
                     </div>
@@ -761,207 +734,7 @@
                             shown in listings</p>
                     </div>
 
-                    <!-- 3. PRICING -->
-                    <div class="glass p-5 md:p-6">
-                        <div class="flex items-start gap-3 mb-4">
-                            <div class="step-num">3</div>
-                            <div>
-                                <div class="card-head">Pricing</div>
-                                <div class="card-subhead">Set regular, sale, and cost prices with tax</div>
-                            </div>
-                        </div>
-                        <hr class="dim mb-5">
 
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
-                            <div>
-                                <label class="lbl">Regular Price <span class="text-rose-500">*</span></label>
-                                <div class="inp-icon-wrap">
-                                    <span class="inp-prefix font-mono text-xs">$</span>
-                                    <input type="number" name="regular_price" class="inp" placeholder="0.00"
-                                        min="0" step="0.01">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="lbl">Sale Price</label>
-                                <div class="inp-icon-wrap">
-                                    <span class="inp-prefix font-mono text-xs">$</span>
-                                    <input type="number" name="sale_price" class="inp" placeholder="0.00"
-                                        min="0" step="0.01"
-                                        style="border-color:rgba(245,158,11,0.25);background:rgba(245,158,11,0.03);">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="lbl">Cost Price</label>
-                                <div class="inp-icon-wrap">
-                                    <span class="inp-prefix font-mono text-xs">$</span>
-                                    <input type="number" name="cost_price" class="inp" placeholder="0.00"
-                                        min="0" step="0.01">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="lbl">Tax Rate</label>
-                                <div style="position:relative;">
-                                    <input type="number" name="tax_rate" class="inp" placeholder="18"
-                                        min="0" max="100" style="padding-right:32px;">
-                                    <span
-                                        style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.2);font-size:11px;font-family:'DM Mono',monospace;pointer-events:none;">%</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Profit calculators -->
-                        <div class="grid grid-cols-3 gap-3">
-                            <div class="mini-stat">
-                                <div class="text-[10px] text-gray-600 uppercase tracking-widest mb-1.5">Profit Margin</div>
-                                <div class="text-xl font-display font-bold text-emerald-400">—</div>
-                            </div>
-                            <div class="mini-stat">
-                                <div class="text-[10px] text-gray-600 uppercase tracking-widest mb-1.5">Profit / Unit</div>
-                                <div class="text-xl font-display font-bold text-white">—</div>
-                            </div>
-                            <div class="mini-stat">
-                                <div class="text-[10px] text-gray-600 uppercase tracking-widest mb-1.5">Tax Amount</div>
-                                <div class="text-xl font-display font-bold text-amber-400">—</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 4. ATTRIBUTES -->
-                    <div class="glass p-5 md:p-6">
-                        <div class="flex items-start gap-3 mb-4">
-                            <div class="step-num">4</div>
-                            <div>
-                                <div class="card-head">Product Attributes</div>
-                                <div class="card-subhead">Sizes, colors, weight, and dimensions</div>
-                            </div>
-                        </div>
-                        <hr class="dim mb-5">
-
-                        <!-- Sizes -->
-                        <div class="mb-5">
-                            <label class="lbl">Available Sizes</label>
-                            <div class="flex flex-wrap gap-2">
-                                <label class="size-pill">
-                                    <input type="checkbox" name="sizes[]" value="M" hidden>
-                                    M
-                                </label>
-
-                                <div class="size-pill" onclick="togglePill(this)">XS</div>
-                                <div class="size-pill selected" onclick="togglePill(this)">S</div>
-                                <div class="size-pill selected" onclick="togglePill(this)">M</div>
-                                <div class="size-pill selected" onclick="togglePill(this)">L</div>
-                                <div class="size-pill" onclick="togglePill(this)">XL</div>
-                                <div class="size-pill" onclick="togglePill(this)">XXL</div>
-                                <div class="size-pill" onclick="togglePill(this)">3XL</div>
-                                {{-- <button class="size-pill" style="border-style:dashed;opacity:0.45;">+ Custom</button> --}}
-                            </div>
-                        </div>
-
-                        <!-- Colors -->
-                        <div class="mb-5">
-                            <label class="lbl">Available Colors</label>
-                            <div class="flex items-center gap-2.5 flex-wrap">
-                                <div class="color-swatch selected" style="background:#111827;" title="Void Black"></div>
-                                <div class="color-swatch" style="background:#2d1b69;" title="Deep Violet"></div>
-                                <div class="color-swatch" style="background:#0c4a6e;" title="Midnight Blue"></div>
-                                <div class="color-swatch" style="background:#14532d;" title="Forest Green"></div>
-                                <div class="color-swatch" style="background:#78350f;" title="Amber Brown"></div>
-                                <div class="color-swatch" style="background:#7f1d1d;" title="Crimson"></div>
-                                <div class="color-swatch"
-                                    style="background:#e2e8f0;border:1px solid rgba(255,255,255,0.15);"
-                                    title="Ghost White"></div>
-                                {{-- <button
-                                    class="w-7 h-7 rounded-lg flex items-center justify-center transition-all hover:scale-110 flex-shrink-0"
-                                    style="border:1px dashed rgba(255,255,255,0.15);background:rgba(255,255,255,0.03);">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
-                                        class="text-gray-600">
-                                        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" />
-                                    </svg>
-                                </button> --}}
-                            </div>
-                        </div>
-
-                        <!-- Physical dimensions -->
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div>
-                                <label class="lbl">Weight</label>
-                                <div style="position:relative;">
-                                    <input type="number" name="weight" class="inp" placeholder="0.0"
-                                        step="0.1" style="padding-right:36px;">
-                                    <span
-                                        style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.2);font-size:11px;font-family:'DM Mono',monospace;pointer-events:none;">kg</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="lbl">Length (L)</label>
-                                <div style="position:relative;">
-                                    <input type="number" name="length" class="inp" placeholder="0"
-                                        style="padding-right:36px;">
-                                    <span
-                                        style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.2);font-size:11px;font-family:'DM Mono',monospace;pointer-events:none;">cm</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="lbl">Width (W)</label>
-                                <div style="position:relative;">
-                                    <input type="number" name="width" class="inp" placeholder="0"
-                                        style="padding-right:36px;">
-                                    <span
-                                        style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.2);font-size:11px;font-family:'DM Mono',monospace;pointer-events:none;">cm</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="lbl">Height (H)</label>
-                                <div style="position:relative;">
-                                    <input type="number" class="inp" name="height" placeholder="0"
-                                        style="padding-right:36px;">
-                                    <span
-                                        style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.2);font-size:11px;font-family:'DM Mono',monospace;pointer-events:none;">cm</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 5. SEO -->
-                    <div class="glass  p-5 md:p-6">
-                        <div class="flex items-start gap-3 mb-4">
-                            <div class="step-num">5</div>
-                            <div class="flex-1 min-w-0">
-                                <div class="card-head">SEO & Meta</div>
-                                <div class="card-subhead">Optimise for search engine visibility</div>
-                            </div>
-                            <span class="flex-shrink-0 text-[10px] px-2 py-0.5 rounded-full font-semibold"
-                                style="background:rgba(245,158,11,0.12);color:#fbbf24;border:1px solid rgba(245,158,11,0.2);">Optional</span>
-                        </div>
-                        <hr class="dim mb-5">
-                        <div class="space-y-4">
-                            <div>
-                                <label class="lbl">Meta Title</label>
-                                <input type="text" class="inp" name="meta_title"
-                                    placeholder="SEO friendly page title…">
-                                <p class="text-[11px] text-gray-600 mt-1">0 / 60 characters</p>
-                            </div>
-                            <div>
-                                <label class="lbl">Meta Description</label>
-                                <textarea class="inp resize-none" name="meta_description" rows="2"
-                                    placeholder="Brief description shown in search results…"></textarea>
-                                <p class="text-[11px] text-gray-600 mt-1">0 / 160 characters</p>
-                            </div>
-                            {{-- <div>
-                                <label class="lbl">Search Result Preview</label>
-                                <div class="seo-box">
-                                    <div class="text-[11px] text-green-500 font-mono mb-0.5">nexus.store › products ›
-                                        obsidian-oversized-hoodie</div>
-                                    <div class="text-sm text-blue-400 font-medium mb-1 hover:underline cursor-pointer">
-                                        Obsidian Oversized Hoodie — NEXUS Store</div>
-                                    <div class="text-xs text-gray-500 leading-relaxed">Your meta description will appear
-                                        here. Keep it under 160 characters for best display results in search engines like
-                                        Google.</div>
-                                </div>
-                            </div> --}}
-                        </div>
-                    </div>
 
                 </div><!-- /left col -->
 
@@ -986,8 +759,8 @@
                             </div>
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <div class="text-sm font-medium text-gray-300">Featured Product</div>
-                                    <div class="text-[11px] text-gray-600">Show on homepage hero</div>
+                                    <div class="text-sm font-medium text-gray-300">Bestseller Badge</div>
+                                    <div class="text-[11px] text-gray-600">Display "Bestseller" label</div>
                                 </div>
                                 <div class="toggle-track" onclick="toggleSwitch(this)">
                                     <div class="toggle-thumb"></div>
@@ -1022,52 +795,6 @@
 
                     </div>
 
-                    <!-- CATEGORY & BRAND -->
-                    <div class="glass p-5">
-                        <div class="card-head mb-0.5">Category & Brand</div>
-                        <div class="card-subhead mb-4">Organise product hierarchy</div>
-                        <hr class="dim mb-4">
-                        <div class="space-y-3">
-                            <div>
-                                <label class="lbl">Category <span class="text-rose-500">*</span></label>
-                                <select class="sel" name="category">
-                                    <option disabled selected>Select category</option>
-                                    @foreach ($categogys as $categogy)
-                                        <option value="{{ $categogy->id }}">{{ $categogy->name }}</option>
-                                    @endforeach
-
-                                </select>
-                            </div>
-                            <div>
-                                <label class="lbl">Subcategory</label>
-                                <select class="sel" name="subcategory">
-                                    <option disabled selected>Select subcategory</option>
-
-                                    <option> dd</option>
-
-                                </select>
-                            </div>
-                            <div>
-                                <label class="lbl">Brand</label>
-                                <select class="sel" name="brand">
-                                    <option disabled selected>Select brand</option>
-                                    @foreach ($brands as $brand)
-                                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                    @endforeach
-
-                                </select>
-                            </div>
-                            <div>
-                                <label class="lbl">Product Type</label>
-                                <select class="sel" name="product_type">
-                                    @foreach ($products as $product)
-                                        <option value="{{ $product->id }}">{{ $product->type }}</option>
-                                    @endforeach
-
-                                </select>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- INVENTORY -->
                     <div class="glass p-5">
@@ -1098,7 +825,7 @@
                                 </div>
                             </div>
                             <!-- Stock status tabs -->
-                            <div>
+                            {{-- <div>
                                 <label class="lbl">Stock Status</label>
                                 <div id="stockStatus" class="flex rounded-xl overflow-hidden">
 
@@ -1121,10 +848,10 @@
                                     </label>
 
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <!-- Toggles -->
-                        <div class="space-y-3 mb-4">
+                        {{-- <div class="space-y-3 mb-4">
                             <div class="flex items-center justify-between">
                                 <div>
                                     <div class="text-sm font-medium text-gray-300">Track Inventory</div>
@@ -1143,7 +870,7 @@
                                     <div class="toggle-thumb"></div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- Level bar -->
                         <div class="mini-stat">
                             <div class="flex justify-between mb-2">
@@ -1157,7 +884,7 @@
                     </div>
 
                     <!-- SHIPPING -->
-                    <div class="glass p-5">
+                    {{-- <div class="glass p-5">
                         <div class="card-head mb-0.5">Shipping</div>
                         <div class="card-subhead mb-4">Delivery configuration</div>
                         <hr class="dim mb-4">
@@ -1192,7 +919,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <!-- LISTING SCORE -->
                     <div class="glass p-5"
@@ -1262,7 +989,215 @@
                     </div>
 
                 </div><!-- /right col -->
+
+
+
             </div><!-- /main grid -->
+            <!-- 3. PRICING -->
+            <div class="glass p-5 md:p-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="step-num">3</div>
+                    <div>
+                        <div class="card-head">Pricing</div>
+                        <div class="card-subhead">Set regular, sale, and cost prices with tax</div>
+                    </div>
+                </div>
+                <hr class="dim mb-5">
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+                    {{-- <div>
+                                <label class="lbl">&nbsp;</label>
+                                <div class="inp-icon-wrap">
+                                    <span class=" font-mono text-sm d-flex align-items-center gap-2">
+                                        <input type="checkbox" name="disc_status" class="width-auto "> Discount
+                                    </span>
+                                </div>
+                            </div> --}}
+                    <div>
+                        <label class="lbl">Regular Price <span class="text-rose-500">*</span></label>
+                        <div class="inp-icon-wrap">
+                            <span class="inp-prefix font-mono text-xs">$</span>
+                            <input type="number" name="regular_price" class="inp" placeholder="0.00" min="0"
+                                step="0.01">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="lbl">Discount Rate</label>
+                        <div class="inp-icon-wrap">
+                            <span class="inp-prefix font-mono text-xs">%</span>
+                            <input type="number" name="sale_price" class="inp" placeholder="0.00" min="0"
+                                step="0.01"
+                                style="border-color:rgba(245,158,11,0.25);background:rgba(245,158,11,0.03);">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="lbl">Discount Price</label>
+                        <div class="inp-icon-wrap">
+                            <span class="inp-prefix font-mono text-xs">$</span>
+                            <input type="number" name="cost_price" class="inp" placeholder="0.00" min="0"
+                                step="0.01">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="lbl">selling Price</label>
+                        <div style="position:relative;">
+                            <input type="number" name="tax_rate" class="inp" placeholder="18" min="0"
+                                max="100" style="padding-right:32px;">
+                            <span
+                                style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.2);font-size:11px;font-family:'DM Mono',monospace;pointer-events:none;">%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profit calculators -->
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="mini-stat">
+                        <div class="text-[10px] text-gray-600 uppercase tracking-widest mb-1.5">Profit Margin</div>
+                        <div class="text-xl font-display font-bold text-emerald-400">—</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="text-[10px] text-gray-600 uppercase tracking-widest mb-1.5">Profit / Unit</div>
+                        <div class="text-xl font-display font-bold text-white">—</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="text-[10px] text-gray-600 uppercase tracking-widest mb-1.5">Tax Amount</div>
+                        <div class="text-xl font-display font-bold text-amber-400">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. ATTRIBUTES -->
+            <div class="glass p-5 md:p-6">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="step-num">4</div>
+                    <div>
+                        <div class="card-head">Product Attributes</div>
+                        <div class="card-subhead">Sizes, colors, weight, and dimensions</div>
+                    </div>
+                </div>
+                <hr class="dim mb-5">
+
+                <!-- Sizes -->
+                <div class="mb-5">
+                    <label class="lbl">Available Sizes</label>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($sizes as $size)
+                            <label class="size-pill" id="size_select{{ $size->id }}" for="size{{ $size->id }}">
+                                <input type="checkbox" name="sizes[]" value="{{ $size->size }}"
+                                    onclick="sizeSelect(this,'{{ $size->id }}')" id="size{{ $size->id }}" hidden>
+                                {{ $size->size }}
+                            </label>
+                        @endforeach
+
+                    </div>
+                </div>
+
+                <!-- Colors -->
+                {{-- <div class="mb-5">
+                            <label class="lbl">Available Colors</label>
+                            <div class="flex items-center gap-2.5 flex-wrap">
+                                <div class="color-swatch selected" style="background:#111827;" title="Void Black"></div>
+                                <div class="color-swatch" style="background:#2d1b69;" title="Deep Violet"></div>
+                                <div class="color-swatch" style="background:#0c4a6e;" title="Midnight Blue"></div>
+                                <div class="color-swatch" style="background:#14532d;" title="Forest Green"></div>
+                                <div class="color-swatch" style="background:#78350f;" title="Amber Brown"></div>
+                                <div class="color-swatch" style="background:#7f1d1d;" title="Crimson"></div>
+                                <div class="color-swatch"
+                                    style="background:#e2e8f0;border:1px solid rgba(255,255,255,0.15);"
+                                    title="Ghost White"></div>
+                                <button
+                                    class="w-7 h-7 rounded-lg flex items-center justify-center transition-all hover:scale-110 flex-shrink-0"
+                                    style="border:1px dashed rgba(255,255,255,0.15);background:rgba(255,255,255,0.03);">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                        class="text-gray-600">
+                                        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div> --}}
+
+                <!-- Physical dimensions -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div>
+                        <label class="lbl">Weight</label>
+                        <div style="position:relative;">
+                            <input type="number" name="weight" class="inp" placeholder="0.0" step="0.1"
+                                style="padding-right:36px;">
+                            <span
+                                style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.2);font-size:11px;font-family:'DM Mono',monospace;pointer-events:none;">kg</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="lbl">Length (L)</label>
+                        <div style="position:relative;">
+                            <input type="number" name="length" class="inp" placeholder="0"
+                                style="padding-right:36px;">
+                            <span
+                                style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.2);font-size:11px;font-family:'DM Mono',monospace;pointer-events:none;">cm</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="lbl">Width (W)</label>
+                        <div style="position:relative;">
+                            <input type="number" name="width" class="inp" placeholder="0"
+                                style="padding-right:36px;">
+                            <span
+                                style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.2);font-size:11px;font-family:'DM Mono',monospace;pointer-events:none;">cm</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="lbl">Height (H)</label>
+                        <div style="position:relative;">
+                            <input type="number" class="inp" name="height" placeholder="0"
+                                style="padding-right:36px;">
+                            <span
+                                style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.2);font-size:11px;font-family:'DM Mono',monospace;pointer-events:none;">cm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. SEO -->
+            <div class="glass p-5 md:p-6 mb-12 " style="margin-bottom: 5rem !important;">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="step-num">5</div>
+                    <div class="flex-1 min-w-0">
+                        <div class="card-head">SEO & Meta</div>
+                        <div class="card-subhead">Optimise for search engine visibility</div>
+                    </div>
+                    <span class="flex-shrink-0 text-[10px] px-2 py-0.5 rounded-full font-semibold"
+                        style="background:rgba(245,158,11,0.12);color:#fbbf24;border:1px solid rgba(245,158,11,0.2);">Optional</span>
+                </div>
+                <hr class="dim mb-5">
+                <div class="space-y-4">
+                    <div>
+                        <label class="lbl">Meta Title</label>
+                        <input type="text" class="inp" name="meta_title" placeholder="SEO friendly page title…">
+                        <p class="text-[11px] text-gray-600 mt-1">0 / 60 characters</p>
+                    </div>
+                    <div>
+                        <label class="lbl">Meta Description</label>
+                        <textarea class="inp resize-none" name="meta_description" rows="2"
+                            placeholder="Brief description shown in search results…"></textarea>
+                        <p class="text-[11px] text-gray-600 mt-1">0 / 160 characters</p>
+                    </div>
+                    {{-- <div>
+                                <label class="lbl">Search Result Preview</label>
+                                <div class="seo-box">
+                                    <div class="text-[11px] text-green-500 font-mono mb-0.5">nexus.store › products ›
+                                        obsidian-oversized-hoodie</div>
+                                    <div class="text-sm text-blue-400 font-medium mb-1 hover:underline cursor-pointer">
+                                        Obsidian Oversized Hoodie — NEXUS Store</div>
+                                    <div class="text-xs text-gray-500 leading-relaxed">Your meta description will appear
+                                        here. Keep it under 160 characters for best display results in search engines like
+                                        Google.</div>
+                                </div>
+                            </div> --}}
+                </div>
+            </div>
+
+
         </div>
 
         <!-- ══ STICKY BOTTOM BAR ══ -->
@@ -1289,6 +1224,13 @@
     </form>
 
     <script>
+        function sizeSelect(thiss, id) {
+            let IntId = parseInt(id);
+            let size = document.getElementById('size_select' + IntId);
+            // console.log(size);
+            size.classList.toggle('selected');
+        }
+
         function setStockUI(input) {
             const labels = document.querySelectorAll('#stockStatus label span');
 

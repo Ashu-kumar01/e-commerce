@@ -101,9 +101,8 @@
                         <div class="qty-row">
                             <span class="qty-label">Qty</span>
                             <div class="qty-ctrl">
-                                <button class="qty-btn" onclick="changeQty(-1)">−</button>
-
-                                <input type="text" name="qty-1" class="qty-num" id="qty" value="1" readonly>
+                                <button class="qty-btn" onclick="changeQty(-1)">−</button> 
+                                <input type="text" name="qty-1" class="qty-num" id="qty" min="1" max="10" value="1" readonly>
                                 <button class="qty-btn" onclick="changeQty(1)">+</button>
                             </div>
                         </div>
@@ -166,17 +165,12 @@
     <script>
         function changeQty(key) {
             let RowInputQty = document.getElementById('qty');
-            let currentQty = parseInt(RowInputQty.value);
-
-            let newQty = currentQty + key;
-
+            let currentQty = parseInt(RowInputQty.value); 
+            let newQty = currentQty + key; 
             if (newQty < 0) {
                 newQty = 0;
             }
-            RowInputQty.value = newQty
-            // console.log(newQty);
-            // let typeof1 = typeof(RowInputQty, currenytQt)
-            // console.log(newQty);
+            RowInputQty.value = newQty 
 
         }
     </script>
