@@ -1,6 +1,53 @@
 @extends('admin.layouts.app')
 @section('content')
     <style>
+        /* wrapper */
+        .toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        /* toggle base */
+        .tog {
+            width: 38px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 99px;
+            position: relative;
+            transition: all 0.25s;
+        }
+
+        /* thumb */
+        .tog-thumb {
+            width: 14px;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toggle-input {
+            display: none;
+        }
+
+        /* ✅ when checked */
+        .toggle-input:checked+.tog {
+            background: linear-gradient(90deg, #7c3aed, #4f46e5);
+            border-color: rgba(139, 92, 246, 0.45);
+            box-shadow: 0 0 10px rgba(124, 58, 237, 0.28);
+        }
+
+        .toggle-input:checked+.tog .tog-thumb {
+            left: calc(100% - 16px);
+            background: #fff;
+        }
+
         .d-flex {
             display: flex;
         }
@@ -69,7 +116,7 @@
 
         .btn-ghost {
             background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            /* border: 1px solid rgba(255, 255, 255, 0.08); */
             color: rgba(255, 255, 255, 0.65);
             font-weight: 500;
             font-size: 13px;
@@ -111,7 +158,7 @@
         .inp {
             width: 100%;
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            /* border: 1px solid rgba(255, 255, 255, 0.08); */
             border-radius: 10px;
             color: #e2e8f0;
             font-size: 13px;
@@ -135,7 +182,7 @@
         .sel {
             width: 100%;
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            /* border: 1px solid rgba(255, 255, 255, 0.08); */
             border-radius: 10px;
             color: rgba(255, 255, 255, 0.7);
             font-size: 13px;
@@ -472,6 +519,8 @@
             }
         }
     </style>
+    <!-- STYLE -->
+
 
     <form action="{{ route('admin.addproduct') }}" method="post" enctype="multipart/form-data">
         @csrf
@@ -525,13 +574,21 @@
                         <div class="space-y-4">
                             <div>
                                 <label class="lbl">Category <span class="text-rose-500">*</span></label>
-                                <select class="sel" name="category">
+                                <select class=" @error('category') border border-red-500 @enderror sel" name="category"
+                                    id="category">
                                     <option disabled selected>Select category</option>
                                     @foreach ($categogys as $categogy)
-                                        <option value="{{ $categogy->id }}">{{ $categogy->name }}</option>
+                                        <option value="{{ $categogy->id }}"
+                                            {{ old('category') == $categogy->id ? 'selected' : '' }}>
+                                            {{ $categogy->name }}</option>
                                     @endforeach
 
                                 </select>
+                                @error('category')
+                                    <p class="text-red-500 text-xs mt-1">
+                                        {{ $message }}
+                                    </p>
+                                @enderror
                             </div>
                             <!-- Product Name -->
                             <div>
@@ -544,8 +601,14 @@
                                         <path d="M16 3H8l-2 4h12l-2-4z" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" />
                                     </svg>
-                                    <input type="text" class="inp" name="product_name"
-                                        placeholder="e.g. Obsidian Oversized Hoodie">
+                                    <input type="text" class="inp @error('product_name') border border-red-500 @enderror"
+                                        name="product_name" oninput="autoSlug(this,'product_slug')"
+                                        value="{{ old('product_name') }}" placeholder="e.g. Obsidian Oversized Hoodie">
+                                    @error('product_name')
+                                        <p class="text-red-500 text-xs mt-1">
+                                            {{ $message }}
+                                        </p>
+                                    @enderror
                                 </div>
                             </div>
                             <!-- Slug -->
@@ -559,9 +622,15 @@
                                         <path d="M10.172 13.828a4 4 0 015.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                                     </svg>
-                                    <input type="text" class="inp" name="slug"
+                                    <input type="text" class="inp @error('slug') border border-red-500 @enderror"
+                                        name="slug" value="{{ old('slug') }}"id="product_slug"
                                         placeholder="obsidian-oversized-hoodie"
                                         style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.02em;">
+                                    @error('slug')
+                                        <p class="text-red-500 text-xs mt-1">
+                                            {{ $message }}
+                                        </p>
+                                    @enderror
                                 </div>
                                 <p class="text-[11px] text-gray-600 mt-1.5">nexus.store/products/<span
                                         class="text-violet-400/70 font-mono text-[11px]">obsidian-oversized-hoodie</span>
@@ -571,168 +640,228 @@
                             <!-- Short Description -->
                             <div>
                                 <label class="lbl">Short Description</label>
-                                <textarea class="inp resize" rows="2" name="short_description"
-                                    placeholder="Brief product summary shown in category listings…"></textarea>
+                                <textarea class="inp resize @error('short_description') border border-red-500 @enderror" rows="2"
+                                    name="short_description" placeholder="Brief product summary shown in category listings…"></textarea>
+                                @error('short_description')
+                                    <p class="text-red-500 text-xs mt-1">
+                                        {{ $message }}
+                                    </p>
+                                @enderror
                             </div>
                             <!-- Full Description with toolbar -->
                             <div>
                                 <label class="lbl">Full Description</label>
-                                <textarea class="inp resize-none" rows="2" name="full_description"
-                                    placeholder="Brief product shown in category"></textarea>
+                                <textarea class="inp resize-none @error('full_description') border border-red-500 @enderror" rows="2"
+                                    name="full_description" placeholder="Brief product shown in category"></textarea>
+                                @error('full_description')
+                                    <p class="text-red-500 text-xs mt-1">
+                                        {{ $message }}
+                                    </p>
+                                @enderror
                             </div>
                             <!-- Tags -->
                             <div>
                                 <label class="lbl">Product Tags</label>
-                                <textarea class="inp resize-none" rows="2" name="product_tags" placeholder="Product Tags"></textarea>
+                                <textarea class="inp resize-none @error('product_tags') border border-red-500 @enderror" rows="2"
+                                    name="product_tags" placeholder="Product Tags"></textarea>
+                                @error('product_tags')
+                                    <p class="text-red-500 text-xs mt-1">
+                                        {{ $message }}
+                                    </p>
+                                @enderror
                             </div>
                         </div>
                     </div>
 
-                    <!-- 2. PRODUCT IMAGES -->
+                    <!-- Product Image Upload Section -->
                     <div class="glass p-5 md:p-6">
+
+                        <!-- Header -->
                         <div class="flex items-start gap-3 mb-4">
                             <div class="step-num">2</div>
+
                             <div>
                                 <div class="card-head">Product Images</div>
-                                <div class="card-subhead">High-quality images increase conversion by 40%</div>
+                                <div class="card-subhead">
+                                    High-quality images increase conversion by 40%
+                                </div>
                             </div>
                         </div>
+
                         <hr class="dim mb-5">
 
-                        <!-- Drop zone -->
-                        <div class="dropzone p-8 text-center mb-4"
-                            ondragover="event.preventDefault();this.classList.add('drag')"
-                            ondragleave="this.classList.remove('drag')"
-                            ondrop="event.preventDefault();this.classList.remove('drag')">
+                        <!-- Upload Form -->
+
+
+                        <!-- Dropzone -->
+                        <label id="dropZone" for="productImages"
+                            class="dropzone p-8 text-center mb-4 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 @error('images.*') border border-red-500 @enderror">
+
                             <div class="flex flex-col items-center gap-3">
-                                <div class="w-12 h-12 rounded-xl flex items-center justify-center"
-                                    style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);">
+
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center upload-icon-box">
+
                                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                                         class="text-violet-400">
+
                                         <path
                                             d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                             stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-300 font-medium">Drag & drop images here</p>
-                                    <p class="text-xs text-gray-600 mt-0.5">or <span
-                                            class="text-violet-400 cursor-pointer hover:text-violet-300 transition-colors">browse
-                                            from device</span></p>
-                                </div>
-                                <div class="flex items-center gap-2 text-[11px] text-gray-600 flex-wrap justify-center">
-                                    <span>PNG, JPG, WEBP</span><span>·</span><span>Max 8MB each</span><span>·</span><span>Up
-                                        to 12 images</span>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Preview grid -->
-                        <div class="grid grid-cols-4 sm:grid-cols-6 gap-3">
-                            <div class="thumb primary-badge sm:col-span-2 sm:row-span-2" style="min-height:100px;">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    class="text-violet-400/30">
-                                    <path
-                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                                <div class="thumb-overlay rounded-xl">
-                                    <button class="text-white hover:text-violet-300 transition-colors p-1">
-                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-                                            <path
-                                                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-                                                stroke="currentColor" stroke-width="2" />
-                                        </svg>
-                                    </button>
-                                    <button class="text-white hover:text-rose-400 transition-colors p-1">
-                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-                                            <path
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
+                                    </svg>
+
                                 </div>
+
+                                <div>
+
+                                    <p class="text-sm text-gray-300 font-medium">
+                                        Drag & drop images here
+                                    </p>
+
+                                    <p class="text-xs text-gray-500 mt-1">
+
+                                        or
+
+                                        <span class="text-violet-400 hover:text-violet-300">
+                                            browse from device
+                                        </span>
+
+                                    </p>
+
+                                </div>
+
+                                <div class="flex items-center gap-2 text-[11px] text-gray-600 flex-wrap justify-center">
+
+                                    <span>PNG, JPG, WEBP</span>
+
+                                    <span>·</span>
+
+                                    <span>Max 8MB each</span>
+
+                                    <span>·</span>
+
+                                    <span>Up to 12 images</span>
+
+                                </div>
+
                             </div>
-                            <div class="thumb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                    class="text-gray-700">
-                                    <path
-                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                                <div class="thumb-overlay rounded-xl"><button
-                                        class="text-white hover:text-rose-400 transition-colors p-1"><svg width="13"
-                                            height="13" viewBox="0 0 24 24" fill="none">
-                                            <path
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg></button></div>
-                            </div>
-                            <div class="thumb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                    class="text-gray-700">
-                                    <path
-                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                                <div class="thumb-overlay rounded-xl"><button
-                                        class="text-white hover:text-rose-400 transition-colors p-1"><svg width="13"
-                                            height="13" viewBox="0 0 24 24" fill="none">
-                                            <path
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg></button></div>
-                            </div>
-                            <div class="thumb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                    class="text-gray-700">
-                                    <path
-                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                                <div class="thumb-overlay rounded-xl"><button
-                                        class="text-white hover:text-rose-400 transition-colors p-1"><svg width="13"
-                                            height="13" viewBox="0 0 24 24" fill="none">
-                                            <path
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg></button></div>
-                            </div>
-                            <div class="thumb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                    class="text-gray-700">
-                                    <path
-                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                                <div class="thumb-overlay rounded-xl"><button
-                                        class="text-white hover:text-rose-400 transition-colors p-1"><svg width="13"
-                                            height="13" viewBox="0 0 24 24" fill="none">
-                                            <path
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg></button></div>
-                            </div>
-                            <!-- Add more -->
-                            <div class="thumb cursor-pointer" style="border:1px dashed rgba(255,255,255,0.1);"
-                                onclick="">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                    class="text-gray-600">
-                                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" />
-                                </svg>
-                            </div>
-                        </div>
-                        <p class="text-[11px] text-gray-600 mt-3">Drag to reorder · Click ★ to set as main · First image
-                            shown in listings</p>
+
+                            <input type="file" id="productImages" name="images[]" multiple accept="image/*" hidden>
+
+                        </label>
+
+                        @error('images.*')
+                            <p class="text-red-500 text-xs mt-2">
+                                {{ $message }}
+                            </p>
+                        @enderror
+
+
+
+                        <!-- Preview Grid -->
+                        <div id="previewGrid" class="grid grid-cols-4 sm:grid-cols-6 gap-3"></div>
+
+                        <p class="text-[11px] text-gray-600 mt-3">
+                            Drag to reorder · Click ★ to set as main · First image shown in listings
+                        </p>
+
+
                     </div>
+
+
+
+                    <!-- SCRIPT -->
+                    <script>
+                        const imageInput = document.getElementById('productImages');
+                        const previewGrid = document.getElementById('previewGrid');
+                        const dropZone = document.getElementById('dropZone');
+
+                        let uploadedFiles = [];
+
+                        imageInput.addEventListener('change', function(e) {
+                            handleFiles(e.target.files);
+                        });
+
+                        dropZone.addEventListener('dragover', (e) => {
+                            e.preventDefault();
+                            dropZone.classList.add('drag');
+                        });
+
+                        dropZone.addEventListener('dragleave', () => {
+                            dropZone.classList.remove('drag');
+                        });
+
+                        dropZone.addEventListener('drop', (e) => {
+                            e.preventDefault();
+
+                            dropZone.classList.remove('drag');
+
+                            handleFiles(e.dataTransfer.files);
+                        });
+
+                        function handleFiles(files) {
+
+                            [...files].forEach(file => {
+
+                                if (!file.type.startsWith('image/')) return;
+
+                                uploadedFiles.push(file);
+
+                                renderPreview(file);
+                            });
+                        }
+
+                        function renderPreview(file) {
+
+                            const reader = new FileReader();
+
+                            reader.onload = function(e) {
+
+                                const div = document.createElement('div');
+
+                                div.className = 'thumb';
+
+                                if (previewGrid.children.length === 0) {
+                                    div.classList.add('primary-badge');
+                                }
+
+                                div.innerHTML = `
+                                    <img src="${e.target.result}">
+
+                                    <div class="thumb-overlay">
+
+                                        <button class="icon-btn main-btn">
+                                            ★
+                                        </button>
+
+                                        <button class="icon-btn delete-btn">
+                                            ✕
+                                        </button>
+
+                                    </div>
+                                `;
+
+                                // delete
+                                div.querySelector('.delete-btn').onclick = () => {
+                                    div.remove();
+                                };
+
+                                // set main
+                                div.querySelector('.main-btn').onclick = () => {
+
+                                    document.querySelectorAll('.thumb')
+                                        .forEach(el => el.classList.remove('primary-badge'));
+
+                                    div.classList.add('primary-badge');
+                                };
+
+                                previewGrid.appendChild(div);
+                            };
+
+                            reader.readAsDataURL(file);
+                        }
+                    </script>
 
 
 
@@ -753,27 +882,45 @@
                                     <div class="text-sm font-medium text-gray-300">Active Status</div>
                                     <div class="text-[11px] text-gray-600">Visible in storefront</div>
                                 </div>
-                                <div class="toggle-track on" onclick="toggleSwitch(this)">
-                                    <div class="toggle-thumb"></div>
-                                </div>
+                                <label class="toggle-wrapper">
+                                    <input type="checkbox" name="active_status" class="toggle-input" value="1"
+                                        checked>
+
+                                    <div class="tog">
+                                        <div class="tog-thumb"></div>
+                                    </div>
+
+                                </label>
                             </div>
                             <div class="flex items-center justify-between">
                                 <div>
                                     <div class="text-sm font-medium text-gray-300">Bestseller Badge</div>
                                     <div class="text-[11px] text-gray-600">Display "Bestseller" label</div>
                                 </div>
-                                <div class="toggle-track" onclick="toggleSwitch(this)">
-                                    <div class="toggle-thumb"></div>
-                                </div>
+                                <label class="toggle-wrapper">
+                                    <input type="checkbox" name="bestseller" class="toggle-input" value="1"
+                                        checked>
+
+                                    <div class="tog">
+                                        <div class="tog-thumb"></div>
+                                    </div>
+
+                                </label>
                             </div>
                             <div class="flex items-center justify-between">
                                 <div>
                                     <div class="text-sm font-medium text-gray-300">New Arrival Badge</div>
                                     <div class="text-[11px] text-gray-600">Display "New" label</div>
                                 </div>
-                                <div class="toggle-track" onclick="toggleSwitch(this)">
-                                    <div class="toggle-thumb"></div>
-                                </div>
+                                <label class="toggle-wrapper">
+                                    <input type="checkbox" name="new_arrival" class="toggle-input" value="1"
+                                        checked>
+
+                                    <div class="tog">
+                                        <div class="tog-thumb"></div>
+                                    </div>
+
+                                </label>
                             </div>
                         </div>
                         <hr class="dim mb-4">
@@ -1015,34 +1162,50 @@
                             </div> --}}
                     <div>
                         <label class="lbl">Regular Price <span class="text-rose-500">*</span></label>
+
                         <div class="inp-icon-wrap">
                             <span class="inp-prefix font-mono text-xs">$</span>
-                            <input type="number" name="regular_price" class="inp" placeholder="0.00" min="0"
-                                step="0.01">
+
+                            <input type="number" name="regular_price" id="regular_price"
+                                class="inp @error('regular_price') 
+                                border border-red-500
+                            @enderror"
+                                placeholder="0.00" min="0" step="0.01">
+                            @error('regular_price')
+                                <p class="text-red-500 text-xs mt-2">
+                                    {{ $message }}
+                                </p>
+                            @enderror
                         </div>
                     </div>
+
                     <div>
                         <label class="lbl">Discount Rate</label>
+
                         <div class="inp-icon-wrap">
                             <span class="inp-prefix font-mono text-xs">%</span>
-                            <input type="number" name="sale_price" class="inp" placeholder="0.00" min="0"
-                                step="0.01"
-                                style="border-color:rgba(245,158,11,0.25);background:rgba(245,158,11,0.03);">
+
+                            <input type="number" name="discount_rate" class="inp"
+                                onkeyup="discountPrice(this.value)" placeholder="0.00" min="0" step="0.01">
                         </div>
                     </div>
+
                     <div>
                         <label class="lbl">Discount Price</label>
+
                         <div class="inp-icon-wrap">
                             <span class="inp-prefix font-mono text-xs">$</span>
-                            <input type="number" name="cost_price" class="inp" placeholder="0.00" min="0"
-                                step="0.01">
+                            <input type="number" name="discount_price" id="discount_price" class="inp"
+                                placeholder="0.00" min="0" step="0.01"
+                                style="border-color:rgba(245,158,11,0.25);background:rgba(245,158,11,0.03);" readonly>
                         </div>
                     </div>
                     <div>
                         <label class="lbl">selling Price</label>
                         <div style="position:relative;">
-                            <input type="number" name="tax_rate" class="inp" placeholder="18" min="0"
-                                max="100" style="padding-right:32px;">
+                            <input type="number" name="selling_price" id="selling_price" class="inp"
+                                onkeyup="calculateDiscount(this.value)" placeholder="18" min="0" max="1000"
+                                style="padding-right:32px;">
                             <span
                                 style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.2);font-size:11px;font-family:'DM Mono',monospace;pointer-events:none;">%</span>
                         </div>
@@ -1084,7 +1247,8 @@
                         @foreach ($sizes as $size)
                             <label class="size-pill" id="size_select{{ $size->id }}" for="size{{ $size->id }}">
                                 <input type="checkbox" name="sizes[]" value="{{ $size->size }}"
-                                    onclick="sizeSelect(this,'{{ $size->id }}')" id="size{{ $size->id }}" hidden>
+                                    onclick="sizeSelect(this,'{{ $size->id }}')" id="size{{ $size->id }}"
+                                    hidden>
                                 {{ $size->size }}
                             </label>
                         @endforeach
@@ -1291,6 +1455,67 @@
                 ev.preventDefault();
                 dz.classList.remove('drag');
             }));
+        }
+    </script>
+    <script>
+        function autoSlug(input, targetId) {
+            const slug = input.value
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-');
+            const target = document.getElementById(targetId);
+            if (target) target.value = slug;
+        }
+    </script>
+
+    <script>
+        function discountPrice(discount) {
+
+            let regular_price = document.getElementById('regular_price');
+
+            let discount_price = document.getElementById('discount_price');
+            let sellingPrice = document.getElementById('selling_price');
+
+            let regularPrice = parseFloat(regular_price.value) || 0;
+
+            let discountRate = parseFloat(discount) || 0;
+
+            let discountPrice = (regularPrice * discountRate / 100);
+            let finalPrice = regularPrice - (regularPrice * discountRate / 100);
+
+            discount_price.value = discountPrice.toFixed(2);
+            sellingPrice.value = finalPrice.toFixed(2);
+        }
+    </script>
+    <script>
+        function calculateDiscount(thiss) {
+
+            let regularPrice =
+                parseFloat(document.getElementById('regular_price').value) || 0;
+
+
+
+            let discountPriceField =
+                document.getElementById('discount_price');
+
+            let discountRateField =
+                document.getElementById('discount_rate');
+
+            // discount amount
+            let discountPrice = regularPrice - thiss;
+
+            // discount %
+            let discountRate = 0;
+
+            if (regularPrice > 0) {
+                discountRate = (discountPrice / regularPrice) * 100;
+            }
+
+            discountPriceField.value = discountPrice.toFixed(2);
+
+            discountRateField.value = discountRate.toFixed(2);
         }
     </script>
 @endsection

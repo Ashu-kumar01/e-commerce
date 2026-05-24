@@ -73,88 +73,64 @@
             </div>
 
             <div class="product-grid" id="productGrid">
-                <div class="product-card">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&amp;q=80"
-                            alt="Noir Obsidian" loading="lazy">
-                        <span class="badge">Best Seller</span>
-                        <div class="img-overlay">
-                            <a href="{{ route('website.product') }}" class="overlay-btn">View Details</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-name serif">Noir Obsidian</div>
-                        <div class="card-price">from ₹1,800</div>
-                        <div class="card-selects">
-                            <select class="elegant-select" id="flavor-1">
-                                <option>Chocolate Ganache</option>
-                                <option>Dark Truffle</option>
-                                <option>Espresso</option>
-                            </select>
-                            <select class="elegant-select" id="size-1">
-                                <option>500g</option>
-                                <option>1 kg</option>
-                                <option>2 kg</option>
-                                <option>3 kg</option>
-                            </select>
-                        </div>
-                        <div class="qty-row">
-                            <span class="qty-label">Qty</span>
-                            <div class="qty-ctrl">
-                                <button class="qty-btn" onclick="changeQty(-1)">−</button> 
-                                <input type="text" name="qty-1" class="qty-num" id="qty" min="1" max="10" value="1" readonly>
-                                <button class="qty-btn" onclick="changeQty(1)">+</button>
+                @foreach ($all_Products as $products)
+                    <div class="product-card">
+                        <div class="img-wrap">
+                            <img src="{{ asset('uploads/products/' . $products->images[0]) }}?w=600&amp;q=80"
+                                alt="Noir Obsidian" loading="lazy">
+                            @if ($products->bestseller == 1)
+                                <span class="badge">Best Seller</span>
+                            @endif
+
+                            <div class="img-overlay">
+                                <a href="{{ route('website.product', $products->id) }}" class="overlay-btn">View Details</a>
                             </div>
                         </div>
-                        <div class="card-actions">
-                            <button class="btn-cart" onclick="addCart('Noir Obsidian',1)">Add to Cart</button>
-                            <a href="http://127.0.0.1:8000/product-summary" class="btn-buy"
-                                style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Buy
-                                Now</a>
-                        </div>
-                    </div>
-                </div>
-                {{-- <div class="product-card">
-                    <div class="img-wrap">
-                        <img src="https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=600&amp;q=80"
-                            alt="Ivory Dream" loading="lazy">
-                        <span class="badge">New</span>
-                        <div class="img-overlay">
-                            <a href="http://127.0.0.1:8000/product-details" class="overlay-btn">View Details</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-name serif">Ivory Dream</div>
-                        <div class="card-price">from ₹1,500</div>
-                        <div class="card-selects">
-                            <select class="elegant-select" id="flavor-2">
-                                <option>Vanilla Bean</option>
-                                <option>White Chocolate</option>
-                                <option>Coconut</option>
-                            </select>
-                            <select class="elegant-select" id="size-2">
-                                <option>500g</option>
-                                <option>1 kg</option>
-                                <option>2 kg</option>
-                                <option>3 kg</option>
-                            </select>
-                        </div>
-                        <div class="qty-row">
-                            <span class="qty-label">Qty</span>
-                            <div class="qty-ctrl">
-                                <button class="qty-btn" onclick="changeQty(2,-1)">−</button>
-                                <span class="qty-num" id="qty-2">1</span>
-                                <button class="qty-btn" onclick="changeQty(2,1)">+</button>
+                        <div class="card-body">
+                            <span class="qty-label">category</span>
+                            <div class="card-name serif">{{ $products->product_name }}</div>
+                            <div class="card-price">from ₹{{ $products->selling_price }}</div>
+                            <div class="card-selects">
+
+                                <select class="elegant-select" id="size-1">
+                                    @foreach ($products->sizes as $size)
+                                        <option value="{{ $size }}">{{ $size }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="qty-row">
+                                <span class="qty-label">Qty</span>
+                                <div class="qty-ctrl">
+
+                                    <button type="button" class="qty-btn"
+                                        onclick="changeQty(-1, 'qty{{ $products->id }}')">
+                                        −
+                                    </button>
+
+                                    <input type="text" class="qty-num" id="qty{{ $products->id }}" value="1"
+                                        readonly>
+
+                                    <button type="button" class="qty-btn"
+                                        onclick="changeQty(1, 'qty{{ $products->id }}')">
+                                        +
+                                    </button>
+
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-cart"
+                                    onclick="addCart({{ $products->id }},'{{ $products->product_name }}')">Add
+                                    to
+                                    Cart</button>
+                                <a href="{{ route('website.summary', $products->id) }}" class="btn-buy"
+                                    style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Buy
+                                    Now</a>
                             </div>
                         </div>
-                        <div class="card-actions">
-                            <button class="btn-cart" onclick="addCart('Ivory Dream',2)">Add to Cart</button>
-                            <a href="http://127.0.0.1:8000/product-summary" class="btn-buy"
-                                style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Buy
-                                Now</a>
-                        </div>
                     </div>
-                </div> --}}
+                @endforeach
+
+
 
             </div>
         </main>
@@ -163,14 +139,27 @@
     <div class="toast" id="toast"></div>
 
     <script>
-        function changeQty(key) {
-            let RowInputQty = document.getElementById('qty');
-            let currentQty = parseInt(RowInputQty.value); 
-            let newQty = currentQty + key; 
-            if (newQty < 0) {
-                newQty = 0;
+        function changeQty(key, id) {
+            let RowInputQty = document.getElementById(id);
+            if (!RowInputQty) {
+                console.log("ID Not Found:", id);
+                return;
             }
-            RowInputQty.value = newQty 
+            let currentQty = parseInt(RowInputQty.value);
+            let newQty = currentQty + key;
+            if (newQty < 1) {
+                newQty = 1;
+            }
+            RowInputQty.value = newQty;
+        }
+    </script>
+    <script>
+        function addCart(id, name) {
+            let carts = document.getElementById('carts');
+
+            let cartsNum = parseInt(carts.innerText) || 0;
+
+            carts.innerText = cartsNum + 1;
 
         }
     </script>

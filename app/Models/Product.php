@@ -11,71 +11,51 @@ class Product extends Model
 
     protected $fillable = [
 
-        // Basic Info
+        'category',
         'product_name',
         'slug',
         'short_description',
         'full_description',
-        'product_tag',
+        'product_tags',
 
-        // Pricing
-        'regular_price',
-        'sale_price',
-        'cost_price',
-        'tax_rate',
+        'images',
 
-        // Dimensions
-        'weight',
-        'length',
-        'width',
-        'height',
-
-        // SEO
-        'meta_title',
-        'meta_description',
-
-        // Publish
-        'publish_date',
-        'visibility',
-
-        // Category
-        'category',
-        'subcategory',
-        'brand',
-        'product_type',
-
-        // Inventory
         'sku',
         'barcode',
         'qty_stock',
         'low_stock_alert',
 
-        // Shipping
-        'shipping_class',
+        'publish_date',
+        'visibility',
 
-        // Status
-        'is_active',
-        'is_featured',
+        'regular_price',
+        'discount_rate',
+        'discount_price',
+        'selling_price',
+
+        'sizes',
+
+        'weight',
+        'length',
+        'width',
+        'height',
+
+        'meta_title',
+        'meta_description',
+
+        'status'
     ];
 
     // ✅ Data Casting (IMPORTANT 🔥)
     protected $casts = [
-        'regular_price' => 'decimal:2',
-        'sale_price' => 'decimal:2',
-        'cost_price' => 'decimal:2',
-        'tax_rate' => 'decimal:2',
 
-        'weight' => 'float',
-        'length' => 'float',
-        'width' => 'float',
-        'height' => 'float',
-
-        'qty_stock' => 'integer',
-        'low_stock_alert' => 'integer',
-
-        'is_active' => 'boolean',
-        'is_featured' => 'boolean',
-
+        'images' => 'array',
+        'sizes' => 'array',
         'publish_date' => 'datetime',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

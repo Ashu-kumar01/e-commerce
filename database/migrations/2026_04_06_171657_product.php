@@ -12,55 +12,115 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
+
             $table->id();
 
-            // Basic Info
+            /*
+            |--------------------------------------------------------------------------
+            | CATEGORY
+            |--------------------------------------------------------------------------
+            */
+            $table->unsignedBigInteger('category_id')->nullable();
+
+            /*
+            |--------------------------------------------------------------------------
+            | BASIC INFORMATION
+            |--------------------------------------------------------------------------
+            */
             $table->string('product_name');
             $table->string('slug')->unique();
+
             $table->text('short_description')->nullable();
             $table->longText('full_description')->nullable();
-            $table->string('product_tag')->nullable();
 
-            // Pricing
-            $table->decimal('regular_price', 10, 2);
-            $table->decimal('sale_price', 10, 2)->nullable();
-            $table->decimal('cost_price', 10, 2)->nullable();
-            $table->decimal('tax_rate', 5, 2)->nullable();
+            $table->text('product_tags')->nullable();
 
-            // Dimensions
-            $table->float('weight')->nullable();
-            $table->float('length')->nullable();
-            $table->float('width')->nullable();
-            $table->float('height')->nullable();
+            /*
+            |--------------------------------------------------------------------------
+            | PRODUCT IMAGES
+            |--------------------------------------------------------------------------
+            */
+            $table->json('images')->nullable();
 
-            // SEO
-            $table->string('meta_title')->nullable();
-            $table->text('meta_description')->nullable();
+            /*
+            |--------------------------------------------------------------------------
+            | PUBLISH SETTINGS
+            |--------------------------------------------------------------------------
+            */
+            $table->boolean('status')->default(1);
 
-            // Publish
+            $table->boolean('bestseller')->default(0);
+            $table->boolean('new_arrival')->default(0);
+
             $table->timestamp('publish_date')->nullable();
-            $table->string('visibility')->default('public');
 
-            // Category
-            $table->string('category');
-            $table->string('subcategory')->nullable();
-            $table->string('brand')->nullable();
-            $table->string('product_type')->default('simple');
+            $table->enum('visibility', [
+                'Public',
+                'Private',
+                'Password Protected'
+            ])->default('Public');
 
-            // Inventory
-            $table->string('sku')->unique();
+            /*
+            |--------------------------------------------------------------------------
+            | INVENTORY
+            |--------------------------------------------------------------------------
+            */
+            $table->string('sku')->nullable();
+
             $table->string('barcode')->nullable();
+
             $table->integer('qty_stock')->default(0);
+
             $table->integer('low_stock_alert')->default(0);
 
-            // Shipping
-            $table->string('shipping_class')->nullable();
+            /*
+            |--------------------------------------------------------------------------
+            | PRICING
+            |--------------------------------------------------------------------------
+            */
+            $table->decimal('regular_price', 10, 2)->default(0);
 
-            // Status
-            $table->boolean('is_active')->default(true);
-            $table->boolean('is_featured')->default(false);
+            $table->decimal('sale_price', 10, 2)->nullable();
+
+            $table->decimal('cost_price', 10, 2)->nullable();
+
+            $table->decimal('selling_price', 10, 2)->nullable();
+
+            /*
+            |--------------------------------------------------------------------------
+            | ATTRIBUTES
+            |--------------------------------------------------------------------------
+            */
+            $table->json('sizes')->nullable();
+
+            $table->decimal('weight', 8, 2)->nullable();
+
+            $table->decimal('length', 8, 2)->nullable();
+
+            $table->decimal('width', 8, 2)->nullable();
+
+            $table->decimal('height', 8, 2)->nullable();
+
+            /*
+            |--------------------------------------------------------------------------
+            | SEO
+            |--------------------------------------------------------------------------
+            */
+            $table->string('meta_title')->nullable();
+
+            $table->text('meta_description')->nullable();
 
             $table->timestamps();
+
+            /*
+            |--------------------------------------------------------------------------
+            | FOREIGN KEY
+            |--------------------------------------------------------------------------
+            */
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('category_brands')
+                ->onDelete('cascade');
         });
     }
 
@@ -69,6 +129,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('products');
     }
 };

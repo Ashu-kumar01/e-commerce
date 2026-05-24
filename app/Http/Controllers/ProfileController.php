@@ -10,13 +10,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Product;
 
 
 
 class ProfileController extends Controller
 {
+    public function home()
+    {
+        $Products_for_index = Product::with('category')->limit(4)->get();
 
-    public function about(){
+        return view('website.index', compact('Products_for_index'));
+    }
+
+    public function about()
+    {
         return view('website.about');
     }
     public function index()

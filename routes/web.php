@@ -19,14 +19,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('website.index');
-})->name('home');
+});
 
 
+Route::get('/', [ProfileController::class, 'home'])->name('website.index');
 Route::get('about', [ProfileController::class, 'about'])->name('website.about');
 
 Route::get('shop-now', [ShopController::class, 'index'])->name('website.shop');
-Route::get('product-details', [ProductController::class, 'product'])->name('website.product');
-Route::get('product-summary', [ShopController::class, 'summary'])->name('website.summary');
+Route::get('product-details/{id}', [ProductController::class, 'product'])->name('website.product');
+Route::get('product-summary/{id}', [ShopController::class, 'summary'])->name('website.summary');
 Route::get('checkout', [ShopController::class, 'checkout'])->name('website.checkout');
 Route::get('contact', [ContactController::class, 'index'])->name('website.contact');
 Route::post('contact-save', [ContactController::class, 'store'])->name('website.contact-save');
