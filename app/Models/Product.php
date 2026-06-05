@@ -48,14 +48,15 @@ class Product extends Model
 
     // ✅ Data Casting (IMPORTANT 🔥)
     protected $casts = [
-
         'images' => 'array',
         'sizes' => 'array',
         'publish_date' => 'datetime',
     ];
 
-    public function category()
+
+
+    public function categorys()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category', 'id');
     }
 }

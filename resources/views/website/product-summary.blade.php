@@ -10,7 +10,29 @@
         <div class="cart-items-container">
             <h2 class="cart-header serif">Order Details</h2>
             <div id="cartList">
-                <!-- Items injected by JS -->
+                <div class="cart-item">
+                    <img src="{{ asset('uploads/products/' . $product_order->images[0]) }}?w=600&amp;q=80"
+                        alt="{{ $product_order->images[0] }}" class="item-img" loading="lazy">
+                    <div class="item-details">
+                        <h3 class="serif">{{ $product_order->product_name }}</h3>
+                        <div class="item-meta">
+                            <span><strong>Flavor:</strong> {{ $product_order->categorys->name }}</span>
+                            <span><strong>Size:</strong> 1 kg</span>
+                            <span><strong>Price:</strong> ₹{{ $product_order->selling_price }}</span>
+                        </div>
+                        <div class="item-actions">
+                            <div class="qty-ctrl">
+                                <button class="qty-btn" onclick="updateQty(1, -1)">−</button>
+                                <span class="qty-num">1</span>
+                                <button class="qty-btn" onclick="updateQty(1, 1)">+</button>
+                            </div>
+                            <button class="remove-btn" onclick="removeItem(1)">Remove</button>
+                        </div>
+                    </div>
+                    <div class="item-total">
+                        ₹{{ $product_order->selling_price }}
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -21,11 +43,13 @@
 
                 <div class="summary-row muted">
                     <span>Subtotal</span>
-                    <span id="subtotalDisplay">₹0</span>
+                    <span id="subtotalDisplay">₹{{ $pricing = $product_order->selling_price }}</span>
                 </div>
                 <div class="summary-row muted">
                     <span>Taxes (5% GST)</span>
-                    <span id="taxDisplay">₹0</span>
+                    <span id="taxDisplay">
+                        ₹{{ $taxAmount = ($product_order->selling_price * 5) / 100 }}
+                    </span>
                 </div>
                 <div class="summary-row muted">
                     <span>Delivery</span>
@@ -36,7 +60,8 @@
 
                 <div class="summary-total">
                     <span>Total</span>
-                    <span id="totalDisplay">₹0</span>
+                    <span id="totalDisplay">₹{{ $pricing + $taxAmount }}</span>
+                    <input type="hidden" value="{{ $pricing + $taxAmount }}" name="final_price" id="final_price">
                 </div>
 
                 <button class="checkout-btn" onclick="window.location.href='{{ route('website.checkout') }}'">Proceed to
@@ -47,7 +72,7 @@
 
 
 
-    <script>
+    {{-- <script>
         // Mock Cart Data (In a real app, this would be fetched from localStorage)
         let cartData = [{
                 id: 1,
@@ -151,5 +176,5 @@
 
         // Initialize page
         renderCart();
-    </script>
+    </script> --}}
 @endsection

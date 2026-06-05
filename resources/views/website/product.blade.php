@@ -32,7 +32,7 @@
 
         <!-- INFO -->
         <div class="product-info">
-            <div class="info-category">Signature Collection</div>
+            <div class="info-category"> {{ $product_details->categorys->name }}</div>
             <h1 class="info-title serif">{{ $product_details->product_name }}</h1>
             <p class="info-subtitle serif">{{ $product_details->short_description }}</p>
 
@@ -95,7 +95,7 @@
             <!-- ACTIONS -->
             <div class="action-row">
                 <button class="btn-cart-lg" onclick="showToast('Added to cart — Noir Obsidian')">Add to Cart</button>
-                <a href="" class="btn-buy-lg">Buy Now</a>
+                <a href="{{ route('website.summary', $product_details->id) }}" class="btn-buy-lg">Buy Now</a>
             </div>
 
             <!-- TRUST -->
@@ -152,7 +152,7 @@
         <div class="related-grid">
             @foreach ($all_Products as $product)
                 <a href="product.html" class="rel-card" style="text-decoration:none;color:inherit;">
-                    <div class="rel-img"><img src="{{ asset('uploads/products/' . $products->images[0]) }}?w=600&amp;q=80"
+                    <div class="rel-img"><img src="{{ asset('uploads/products/' . $product->images[0]) }}?w=600&amp;q=80"
                             alt="Ivory Dream" /></div>
                     <div class="rel-body">
                         <div class="rel-name serif">Ivory Dream</div>

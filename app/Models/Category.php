@@ -10,7 +10,7 @@ class Category extends Model
     /** @use HasFactory<\Database\Factories\CategotieFactory> */
     use HasFactory;
 
-    protected $table = 'categories';
+    protected $table = 'categorys';
     protected $fillable = [
         'name',
         'slug',
@@ -18,18 +18,15 @@ class Category extends Model
         'status'
     ];
 
-    public function subcategory()
-    {
-        return $this->hasMany(SubCategory::class, 'category_id');
-    }
+    
 
-    public function size()
-    {
-        return $this->hasMany(Size::class, 'category_id');
-    }
+    // public function size()
+    // {
+    //     return $this->hasMany(Size::class, 'category_id');
+    // }
 
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class, 'category');
     }
 }

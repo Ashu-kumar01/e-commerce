@@ -19,8 +19,8 @@ class ShopController extends Controller
 
     public function summary($id)
     {
-      
-        return view('website.product-summary');
+        $product_order = Product::with('categorys')->where('id', $id)->first();
+        return view('website.product-summary', compact('product_order'));
     }
 
     public function checkout()

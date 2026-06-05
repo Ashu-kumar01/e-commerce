@@ -171,22 +171,19 @@
                 @foreach ($Products_for_index as $product)
                     <div class="product-card">
                         <div class="img-wrap">
-                            <img src="{{ asset('uploads/products/' . $product->images[0]) }}" alt="{{ $product->product_name }}"
-                                loading="lazy">
+                            <img src="{{ asset('uploads/products/' . $product->images[0]) }}"
+                                alt="{{ $product->product_name }}" loading="lazy">
                             <span class="badge">Best Seller</span>
                             <div class="img-overlay">
                                 <a href="" class="overlay-btn">View Details</a>
                             </div>
                         </div>
                         <div class="card-body">
+                            <span class="qty-label">{{ optional($product->category)->name }}</span>
                             <div class="card-name serif">{{ $product->product_name }}</div>
                             <div class="card-price">from ₹{{ $product->selling_price }}</div>
                             <div class="card-selects">
-                                <select class="elegant-select" id="flavor-1">
 
-                                    <option></option>
-
-                                </select>
                                 <select class="elegant-select" id="size-1">
                                     <option>500g</option>
                                     <option>1 kg</option>

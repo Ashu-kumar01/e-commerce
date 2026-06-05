@@ -18,8 +18,8 @@ class ProfileController extends Controller
 {
     public function home()
     {
+        
         $Products_for_index = Product::with('category')->limit(4)->get();
-
         return view('website.index', compact('Products_for_index'));
     }
 

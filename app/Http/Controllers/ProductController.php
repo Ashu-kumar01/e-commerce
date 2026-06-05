@@ -15,7 +15,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $all_Products = Product::limit(4)->get();
+
         $categogys = Category::where('status', 1)->get();
         $sizes = Size::get();
         $products = ProductType::where('status', 1)->get();
@@ -155,9 +155,11 @@ class ProductController extends Controller
         return back()->with('success', 'Product Added Successfully');
     }
 
-    public function product()
+    public function product($id)
     {
-        // $product_details = Product::findOrFail($id);
-        return view('website.product', compact('product_details'));
+        $product_details = Product::with('categorys')->where('id', $id)->first();
+        // dd($product_details);
+        $all_Products = Product::limit(4)->get();
+        return view('website.product', compact('product_details', 'all_Products'));
     }
 }
